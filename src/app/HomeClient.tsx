@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
