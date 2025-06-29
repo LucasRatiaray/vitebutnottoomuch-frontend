@@ -1,5 +1,5 @@
 // src/app/bookmarks/categories/[slug]/page.tsx
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import CardPost from '@/components/card-post';
 
 type Props = {
