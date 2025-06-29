@@ -1,15 +1,11 @@
-// src/app/bookmarks/categories/[slug]/page.tsx
 import type { Metadata } from 'next';
 import CardPost from '@/components/card-post';
 
-type Props = {
+export async function generateMetadata({
+  params,
+}: {
   params: { slug: string };
-  // searchParams?: { [key: string]: string | string[] | undefined }
-};
-
-export async function generateMetadata(
-  { params }: Props,
-): Promise<Metadata> {
+}): Promise<Metadata> {
   const canonical = `/bookmarks/categories/${params.slug}`;
 
   return {
@@ -31,7 +27,7 @@ export async function generateMetadata(
   };
 }
 
-export default function CategoryPage({ params }: Props) {
+export default function CategoryPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const postsForCategory = Array(2).fill(null);
 
