@@ -2,18 +2,13 @@ import type { Metadata } from 'next';
 import CardPost from '@/components/card-post';
 
 /* -------------------------------------------------------------------------- */
-/*                                Types                                       */
-/* -------------------------------------------------------------------------- */
-type CategoryPageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-/* -------------------------------------------------------------------------- */
 /*                               SEO : metadata                               */
 /* -------------------------------------------------------------------------- */
-export function generateMetadata({ params }: CategoryPageProps): Metadata {
+export function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Metadata {
   const canonical = `/bookmarks/categories/${params.slug}`;
 
   return {
@@ -38,8 +33,7 @@ export function generateMetadata({ params }: CategoryPageProps): Metadata {
 /* -------------------------------------------------------------------------- */
 /*                               Page component                               */
 /* -------------------------------------------------------------------------- */
-export default function CategoryPage({ params }: CategoryPageProps) {
-  // on récupère le slug pour l'utiliser (évite no-unused-vars)
+export default function CategoryPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
   // Remplace ce placeholder par tes vraies données
