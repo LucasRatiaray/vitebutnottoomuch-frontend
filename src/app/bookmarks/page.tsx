@@ -1,3 +1,4 @@
+// src/app/bookmarks/page.tsx
 import type { Metadata } from 'next';
 import CardPost from '@/components/card-post';
 

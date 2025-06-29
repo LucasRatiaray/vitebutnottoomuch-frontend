@@ -1,16 +1,18 @@
+// src/app/bookmarks/categories/[slug]/page.tsx
 import type { Metadata } from 'next';
 import CardPost from '@/components/card-post';
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const canonical = `/bookmarks/categories/${params.slug}`;
+  const { slug } = await params;
+  const canonical = `/bookmarks/categories/${slug}`;
 
   return {
-    title: `Bookmarks – ${params.slug}`,
-    description: `Liste des bookmarks pour la catégorie ${params.slug}.`,
+    title: `Bookmarks – ${slug}`,
+    description: `Liste des bookmarks pour la catégorie ${slug}.`,
     alternates: {
       canonical,
       languages: {
@@ -20,15 +22,15 @@ export async function generateMetadata({
     },
     openGraph: {
       url: canonical,
-      title: `Bookmarks – ${params.slug}`,
-      description: `Liste des bookmarks pour la catégorie ${params.slug}.`,
+      title: `Bookmarks – ${slug}`,
+      description: `Liste des bookmarks pour la catégorie ${slug}.`,
       type: 'website',
     },
   };
 }
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const postsForCategory = Array(2).fill(null);
 
   return (

@@ -1,3 +1,4 @@
+// File: src/app/page.tsx
 import type { Metadata } from 'next';
 import HomeClient from './HomeClient';
 
