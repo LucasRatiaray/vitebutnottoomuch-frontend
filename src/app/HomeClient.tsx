@@ -8,18 +8,18 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 const defaultProps = {
-  badge: 'Nouvelle collection',
-  heading: 'Découvrez Notre Sélection de Sites Web Incontournable',
+  badge: 'Catalogue Vitebutnottoomuch',
+  heading: 'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
   description:
-    'Une collection soigneusement organisée de sites internet utiles et inspirants. Explorez les meilleures ressources du web dans tous les domaines.',
+    'Découvrez notre sélection exclusive de sites web analysés sous l\'angle Vitebutnottoomuch. Chaque site est évalué pour son équilibre parfait entre vitesse et fonctionnalités, incarnant la philosophie de performance optimale.',
   buttons: {
     primary: {
-      text: 'Qui sommes-nous?',
-      url: '/about',
+      text: 'Explorer les Sites',
+      url: '/sites',
     },
     secondary: {
-      text: 'Nous contacter',
-      url: '/contact',
+      text: 'Voir les Catégories',
+      url: '/categories',
     },
   },
 };

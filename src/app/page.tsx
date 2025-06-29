@@ -4,10 +4,10 @@ import HomeClient from './HomeClient';
 
 /* ---------- SEO ---------- */
 export const metadata: Metadata = {
-  title: 'vitebutnottoomuch – Accueil',
+  title: 'Accueil',
   description:
-    'Une collection organisée de sites web incontournables et inspirants.',
-
+    'Vitebutnottoomuch - Découvrez notre catalogue exclusif de sites web analysés pour leur performance équilibrée. Chaque site incarne parfaitement la philosophie vitebutnottoomuch : vitesse optimale et fonctionnalités riches.',
+  keywords: ['vitebutnottoomuch', 'catalogue sites web', 'performance web', 'analyse sites', 'vitesse optimale', 'équilibre web'],
   alternates: {
     canonical: '/',
     languages: {
@@ -16,16 +16,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     url: '/',
-    title: 'vitebutnottoomuch – Accueil',
+    title: 'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
     description:
-      'Une collection soignée de sites web incontournables pour designers et développeurs.',
+      'Découvrez notre sélection exclusive de sites web analysés sous l\'angle vitebutnottoomuch. Performance optimale et équilibre parfait.',
     type: 'website',
     images: [
       {
         url: '/images/og-default.webp',
         width: 1200,
         height: 630,
-        alt: 'vitebutnottoomuch – bannière',
+        alt: 'Vitebutnottoomuch - Catalogue de Performance Web',
       },
     ],
   },

@@ -25,7 +25,8 @@ const STATIC_SEGMENTS: Record<
   { label: string; Icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }
 > = {
   '': { label: 'Accueil', Icon: HomeIcon },
-  bookmarks: { label: 'Bookmarks', Icon: BookmarksIcon },
+  sites: { label: 'Sites', Icon: BookmarksIcon },
+  categories: { label: 'Catégories', Icon: DefaultIcon },
 };
 
 function humanize(seg: string) {

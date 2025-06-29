@@ -21,8 +21,8 @@ import { cn } from '@/lib/utils';
 import { categoriesItems } from '@/lib/categories';
 
 const mainLink = {
-  title: 'Bookmarks',
-  href: '/bookmarks',
+  title: 'Sites',
+  href: '/sites',
 };
 
 export function Navbar() {
@@ -98,7 +98,7 @@ export function Navbar() {
                     {categoriesItems.map((item) => (
                       <li key={item.slug}>
                         <NavigationMenuLink asChild>
-                          <Link href={`/bookmarks/categories/${item.slug}`}>
+                          <Link href={`/categories/${item.slug}`}>
                             <div className="hover:bg-secondary/20 flex items-center gap-2 rounded-md p-2">
                               <item.icon />
                               {item.title}
@@ -165,7 +165,7 @@ export function Navbar() {
                     {categoriesItems.map((item) => (
                       <Link
                         key={item.slug}
-                        href={`/bookmarks/categories/${item.slug}`}
+                        href={`/categories/${item.slug}`}
                         className="hover:bg-secondary/20 flex items-start gap-3 rounded-lg p-3 transition-colors"
                       >
                         <div className="text-muted-foreground mt-0.5">

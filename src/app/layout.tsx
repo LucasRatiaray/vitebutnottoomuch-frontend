@@ -22,41 +22,54 @@ export const fontUnbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
-  title: 'vitebutnottoomuch',
-  description: 'La boîte à liens qui recense les meilleures ressources web.',
+  title: {
+    default: "Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée",
+    template: "%s | Vitebutnottoomuch"
+  },
+  description: "Découvrez notre sélection de sites web analysés sous l'angle Vitebutnottoomuch. Catalogue de sites performants alliant vitesse et fonctionnalités dans un équilibre parfait.",
+  keywords: ["vitebutnottoomuch", "performance web", "sites web", "catalogue", "analyse", "vitesse", "équilibre", "SEO"],
+  authors: [{ name: "Vitebutnottoomuch" }],
+  creator: "Vitebutnottoomuch",
+  publisher: "Vitebutnottoomuch",
   metadataBase: new URL('https://vitebutnottoomuch.me'),
   alternates: {
     canonical: '/',
     languages: {
       'fr-FR': '/',
-      // Ajoutez d'autres langues si nécessaire
     },
   },
   openGraph: {
-    title: 'vitebutnottoomuch',
-    description: 'Bookmark for Websites',
-    url: 'https://vitebutnottoomuch.me',
-    siteName: 'vitebutnottoomuch',
-    locale: 'fr_FR',
     type: 'website',
+    locale: 'fr_FR',
+    url: 'https://vitebutnottoomuch.me',
+    title: 'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
+    description: 'Découvrez notre sélection de sites web analysés sous l\'angle Vitebutnottoomuch. Performance web optimale et équilibre parfait.',
+    siteName: 'Vitebutnottoomuch',
     images: [
       {
         url: '/images/og-default.webp',
         width: 1200,
         height: 630,
-        alt: 'vitebutnottoomuch – bannière',
+        alt: 'Vitebutnottoomuch - Catalogue de Performance Web',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'vitebutnottoomuch',
-    description: 'Bookmark for Websites',
-    images: ['/images/milky-way-night-sky-stars.webp'],
+    title: 'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
+    description: 'Découvrez notre sélection de sites web analysés sous l\'angle Vitebutnottoomuch.',
+    images: ['/images/og-default.webp'],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
