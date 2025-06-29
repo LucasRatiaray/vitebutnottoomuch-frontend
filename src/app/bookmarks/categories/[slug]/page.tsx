@@ -9,7 +9,6 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const canonical = `/bookmarks/categories/${params.slug}`;
 
