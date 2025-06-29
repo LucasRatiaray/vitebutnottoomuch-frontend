@@ -1,14 +1,16 @@
-import type { Metadata } from 'next';
+// src/app/bookmarks/categories/[slug]/page.tsx
+import type { Metadata, ResolvingMetadata } from 'next';
 import CardPost from '@/components/card-post';
 
-/* -------------------------------------------------------------------------- */
-/*                               SEO : metadata                               */
-/* -------------------------------------------------------------------------- */
-export function generateMetadata({
-  params,
-}: {
+type Props = {
   params: { slug: string };
-}): Metadata {
+  // searchParams?: { [key: string]: string | string[] | undefined }
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const canonical = `/bookmarks/categories/${params.slug}`;
 
   return {
@@ -30,20 +32,13 @@ export function generateMetadata({
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/*                               Page component                               */
-/* -------------------------------------------------------------------------- */
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default function CategoryPage({ params }: Props) {
   const { slug } = params;
-
-  // Remplace ce placeholder par tes vraies données
   const postsForCategory = Array(2).fill(null);
 
   return (
     <>
-      {/* Titre caché pour l’accessibilité & SEO */}
       <h1 className="sr-only">Bookmarks pour la catégorie {slug}</h1>
-
       <section className="grid gap-6 md:grid-cols-2">
         {postsForCategory.map((_, i) => (
           <CardPost key={i} />
