@@ -2,7 +2,13 @@
 'use client';
 
 import * as React from 'react';
-import { ArrowRight, ArrowUpRight, TrendingUp, Star, BarChart3 } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  TrendingUp,
+  Star,
+  BarChart3,
+} from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -14,7 +20,7 @@ const defaultProps = {
   badge: 'Catalogue Vitebutnottoomuch',
   heading: 'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
   description:
-    'Découvrez notre sélection exclusive de sites web analysés sous l\'angle Vitebutnottoomuch. Chaque site est évalué pour son équilibre parfait entre vitesse et fonctionnalités, incarnant la philosophie de performance optimale.',
+    "Découvrez notre sélection exclusive de sites web analysés sous l'angle Vitebutnottoomuch. Chaque site est évalué pour son équilibre parfait entre vitesse et fonctionnalités, incarnant la philosophie de performance optimale.",
   buttons: {
     primary: {
       text: 'Explorer les Sites',
@@ -54,29 +60,35 @@ export default function HomeClient({
             <p className="text-muted-foreground max-w-xl text-base">
               {description}
             </p>
-            
+
             {/* Stats Section */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8 w-full max-w-2xl">
+            <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-6 sm:grid-cols-3">
               <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <BarChart3 className="h-5 w-5 text-primary" />
-                  <span className="text-2xl font-bold text-primary">{stats.total}</span>
+                <div className="mb-2 flex items-center justify-center gap-2">
+                  <BarChart3 className="text-primary h-5 w-5" />
+                  <span className="text-primary text-2xl font-bold">
+                    {stats.total}
+                  </span>
                 </div>
-                <p className="text-sm text-muted-foreground">Sites analysés</p>
+                <p className="text-muted-foreground text-sm">Sites analysés</p>
               </div>
               <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Star className="h-5 w-5 text-yellow-500 fill-current" />
-                  <span className="text-2xl font-bold text-primary">{stats.avgVitebutnottoomuchScore.toFixed(1)}</span>
+                <div className="mb-2 flex items-center justify-center gap-2">
+                  <Star className="h-5 w-5 fill-current text-yellow-500" />
+                  <span className="text-primary text-2xl font-bold">
+                    {stats.avgVitebutnottoomuchScore.toFixed(1)}
+                  </span>
                 </div>
-                <p className="text-sm text-muted-foreground">Score moyen</p>
+                <p className="text-muted-foreground text-sm">Score moyen</p>
               </div>
               <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="mb-2 flex items-center justify-center gap-2">
                   <TrendingUp className="h-5 w-5 text-green-500" />
-                  <span className="text-2xl font-bold text-primary">{stats.categories.length}</span>
+                  <span className="text-primary text-2xl font-bold">
+                    {stats.categories.length}
+                  </span>
                 </div>
-                <p className="text-sm text-muted-foreground">Catégories</p>
+                <p className="text-muted-foreground text-sm">Catégories</p>
               </div>
             </div>
 
@@ -104,13 +116,16 @@ export default function HomeClient({
       </section>
 
       {/* Top Sites Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="bg-muted/30 py-16">
         <div className="mx-auto w-full max-w-7xl px-6">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold mb-4">Sites les mieux notés Vitebutnottoomuch</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Découvrez les sites qui incarnent le mieux la philosophie vitebutnottoomuch : 
-              performance exceptionnelle et richesse fonctionnelle en parfait équilibre.
+            <h2 className="mb-4 text-3xl font-bold">
+              Sites les mieux notés Vitebutnottoomuch
+            </h2>
+            <p className="text-muted-foreground mx-auto max-w-2xl">
+              Découvrez les sites qui incarnent le mieux la philosophie
+              vitebutnottoomuch : performance exceptionnelle et richesse
+              fonctionnelle en parfait équilibre.
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -118,7 +133,7 @@ export default function HomeClient({
               <SiteCard key={site.id} site={site} />
             ))}
           </div>
-          <div className="text-center mt-12">
+          <div className="mt-12 text-center">
             <Button asChild variant="outline" size="lg">
               <Link href="/sites">
                 Voir tous les sites
@@ -133,22 +148,25 @@ export default function HomeClient({
       <section className="py-16">
         <div className="mx-auto w-full max-w-7xl px-6">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold mb-4">Explorez par catégories</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Parcourez notre catalogue organisé par domaines d'expertise. 
+            <h2 className="mb-4 text-3xl font-bold">Explorez par catégories</h2>
+            <p className="text-muted-foreground mx-auto max-w-2xl">
+              Parcourez notre catalogue organisé par domaines d&apos;expertise.
               Chaque catégorie regroupe les meilleurs sites de son secteur.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {stats.categories.slice(0, 6).map((category, index) => (
-              <Link key={category} href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`}>
-                <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
+            {stats.categories.slice(0, 6).map((category) => (
+              <Link
+                key={category}
+                href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                <Card className="h-full cursor-pointer transition-shadow hover:shadow-lg">
                   <CardHeader className="pb-3">
                     <h3 className="text-lg font-semibold">{category}</h3>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">
-                      Découvrez les meilleurs sites de {category.toLowerCase()} 
+                    <p className="text-muted-foreground text-sm">
+                      Découvrez les meilleurs sites de {category.toLowerCase()}
                       analysés selon les critères Vitebutnottoomuch.
                     </p>
                   </CardContent>
@@ -156,7 +174,7 @@ export default function HomeClient({
               </Link>
             ))}
           </div>
-          <div className="text-center mt-12">
+          <div className="mt-12 text-center">
             <Button asChild variant="outline" size="lg">
               <Link href="/categories">
                 Toutes les catégories
@@ -168,13 +186,15 @@ export default function HomeClient({
       </section>
 
       {/* Recent Sites Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="bg-muted/30 py-16">
         <div className="mx-auto w-full max-w-7xl px-6">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold mb-4">Dernières analyses Vitebutnottoomuch</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Les sites les plus récemment ajoutés à notre catalogue, 
-              avec leurs analyses complètes et scores de performance.
+            <h2 className="mb-4 text-3xl font-bold">
+              Dernières analyses Vitebutnottoomuch
+            </h2>
+            <p className="text-muted-foreground mx-auto max-w-2xl">
+              Les sites les plus récemment ajoutés à notre catalogue, avec leurs
+              analyses complètes et scores de performance.
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

@@ -6,23 +6,22 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { 
-  ExternalLink, 
-  Clock, 
-  Gauge, 
-  Code2, 
+import {
+  ExternalLink,
+  Clock,
+  Gauge,
+  Code2,
   ArrowLeft,
   BookOpen,
   Calendar,
   TrendingUp,
-  Globe
+  Globe,
 } from 'lucide-react';
-import { getAllSlugs, getSiteBySlugSync, getSimilarSites } from '@/lib/data';
-import SiteCard from '@/components/site-card';
+import { getAllSlugs, getSiteBySlugSync } from '@/lib/data';
 import { ScoreBadge } from '@/components/score-badge';
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -33,8 +32,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const site = getSiteBySlugSync(params.slug);
-  
+  const { slug } = await params;
+  const site = getSiteBySlugSync(slug);
+
   if (!site) {
     return {
       title: 'Site non trouvé',
@@ -44,7 +44,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: site.title,
     description: site.metaDescription,
-    keywords: [...site.seo.keywords, 'vitebutnottoomuch', 'analyse', 'performance'],
+    keywords: [
+      ...site.seo.keywords,
+      'vitebutnottoomuch',
+      'analyse',
+      'performance',
+    ],
     alternates: {
       canonical: `/sites/${site.slug}`,
     },
@@ -58,14 +63,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: ['Vitebutnottoomuch'],
       section: 'Technology',
       tags: site.seo.tags,
-      images: site.siteInfo.logo ? [
-        {
-          url: site.siteInfo.logo,
-          width: 1200,
-          height: 630,
-          alt: site.title,
-        },
-      ] : [],
+      images: site.siteInfo.logo
+        ? [
+            {
+              url: site.siteInfo.logo,
+              width: 1200,
+              height: 630,
+              alt: site.title,
+            },
+          ]
+        : [],
     },
     twitter: {
       card: 'summary_large_image',
@@ -76,14 +83,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function SiteDetailPage({ params }: Props) {
-  const site = getSiteBySlugSync(params.slug);
-  
+export default async function SiteDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const site = getSiteBySlugSync(slug);
+
   if (!site) {
     notFound();
   }
-
-  const similarSites = getSimilarSites(site, 3);
 
   // Table des matières
   const tableOfContents = [
@@ -91,9 +97,9 @@ export default function SiteDetailPage({ params }: Props) {
     ...site.content.sections.map((section, index) => ({
       id: `section-${index}`,
       title: section.title,
-      href: `#section-${index}`
+      href: `#section-${index}`,
     })),
-    { id: 'conclusion', title: 'Conclusion', href: '#conclusion' }
+    { id: 'conclusion', title: 'Conclusion', href: '#conclusion' },
   ];
 
   return (
@@ -108,12 +114,12 @@ export default function SiteDetailPage({ params }: Props) {
         </Button>
       </nav>
 
-      <div className="grid lg:grid-cols-4 gap-8">
+      <div className="grid gap-8 lg:grid-cols-4">
         {/* Main Content */}
         <div className="lg:col-span-3">
           {/* Header */}
           <header className="mb-12">
-            <div className="flex items-start gap-6 mb-6">
+            <div className="mb-6 flex items-start gap-6">
               {site.siteInfo.favicon && (
                 <div className="shrink-0">
                   <Image
@@ -125,16 +131,16 @@ export default function SiteDetailPage({ params }: Props) {
                   />
                 </div>
               )}
-              <div className="flex-1 min-w-0">
-                <h1 className="text-4xl font-bold mb-4 leading-tight">
+              <div className="min-w-0 flex-1">
+                <h1 className="mb-4 text-4xl leading-tight font-bold">
                   {site.title}
                 </h1>
-                <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+                <p className="text-muted-foreground mb-6 text-xl leading-relaxed">
                   {site.metaDescription}
                 </p>
-                
+
                 {/* Méta informations */}
-                <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-6">
+                <div className="text-muted-foreground mb-6 flex flex-wrap items-center gap-6 text-sm">
                   <div className="flex items-center gap-2">
                     <Globe className="h-4 w-4" />
                     <span>{site.siteInfo.domain}</span>
@@ -149,15 +155,24 @@ export default function SiteDetailPage({ params }: Props) {
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
-                    <span>{new Date(site.enrichedAt).toLocaleDateString('fr-FR')}</span>
+                    <span>
+                      {new Date(site.enrichedAt).toLocaleDateString('fr-FR')}
+                    </span>
                   </div>
                 </div>
 
                 {/* Score et CTA */}
                 <div className="flex items-center gap-4">
-                  <ScoreBadge score={site.seo.vitebutnottoomuchScore} className="text-lg px-4 py-2" />
+                  <ScoreBadge
+                    score={site.seo.vitebutnottoomuchScore}
+                    className="px-4 py-2 text-lg"
+                  />
                   <Button asChild size="lg">
-                    <a href={site.url} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={site.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <ExternalLink className="mr-2 h-4 w-4" />
                       Visiter le site
                     </a>
@@ -170,7 +185,11 @@ export default function SiteDetailPage({ params }: Props) {
             <div className="space-y-3">
               <div className="flex flex-wrap gap-2">
                 {site.seo.categories.map((category) => (
-                  <Badge key={category} variant="secondary" className="px-3 py-1">
+                  <Badge
+                    key={category}
+                    variant="secondary"
+                    className="px-3 py-1"
+                  >
                     {category}
                   </Badge>
                 ))}
@@ -188,13 +207,13 @@ export default function SiteDetailPage({ params }: Props) {
           {/* Hero Image */}
           {site.siteInfo.logo && (
             <div className="mb-12">
-              <div className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10">
+              <div className="from-primary/5 to-primary/10 aspect-video overflow-hidden rounded-xl bg-gradient-to-br">
                 <Image
                   src={site.siteInfo.logo}
                   alt={`Aperçu de ${site.siteInfo.domain}`}
                   width={800}
                   height={450}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
             </div>
@@ -203,7 +222,7 @@ export default function SiteDetailPage({ params }: Props) {
           {/* Introduction */}
           <section id="introduction" className="mb-12">
             <div className="prose prose-lg max-w-none">
-              <p className="text-lg leading-relaxed first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-2 first-letter:float-left">
+              <p className="first-letter:text-primary text-lg leading-relaxed first-letter:float-left first-letter:mr-2 first-letter:text-5xl first-letter:font-bold">
                 {site.content.introduction}
               </p>
             </div>
@@ -215,13 +234,11 @@ export default function SiteDetailPage({ params }: Props) {
           <div className="space-y-12">
             {site.content.sections.map((section, index) => (
               <section key={index} id={`section-${index}`}>
-                <h2 className="text-3xl font-bold mb-6 text-primary">
+                <h2 className="text-primary mb-6 text-3xl font-bold">
                   {section.title}
                 </h2>
                 <div className="prose prose-lg max-w-none">
-                  <p className="text-lg leading-relaxed">
-                    {section.content}
-                  </p>
+                  <p className="text-lg leading-relaxed">{section.content}</p>
                 </div>
                 {index < site.content.sections.length - 1 && (
                   <Separator className="mt-12" />
@@ -243,10 +260,13 @@ export default function SiteDetailPage({ params }: Props) {
           </section> */}
 
           {/* CTA Final */}
-          <div className="text-center py-8 border-t">
-            <h3 className="text-2xl font-bold mb-4">Découvrez {site.siteInfo.domain}</h3>
+          <div className="border-t py-8 text-center">
+            <h3 className="mb-4 text-2xl font-bold">
+              Découvrez {site.siteInfo.domain}
+            </h3>
             <p className="text-muted-foreground mb-6">
-              Explorez ce site qui incarne parfaitement la philosophie Vitebutnottoomuch
+              Explorez ce site qui incarne parfaitement la philosophie
+              Vitebutnottoomuch
             </p>
             <Button asChild size="lg">
               <a href={site.url} target="_blank" rel="noopener noreferrer">
@@ -258,11 +278,11 @@ export default function SiteDetailPage({ params }: Props) {
         </div>
 
         {/* Sidebar */}
-        <aside className="lg:sticky lg:top-8 lg:self-start space-y-6">
+        <aside className="space-y-6 lg:sticky lg:top-8 lg:self-start">
           {/* Table des matières */}
           <Card>
             <CardHeader>
-              <h3 className="font-semibold flex items-center gap-2">
+              <h3 className="flex items-center gap-2 font-semibold">
                 <BookOpen className="h-4 w-4" />
                 Table des matières
               </h3>
@@ -272,7 +292,7 @@ export default function SiteDetailPage({ params }: Props) {
                 <a
                   key={item.id}
                   href={item.href}
-                  className="block text-sm text-muted-foreground hover:text-primary transition-colors py-1"
+                  className="text-muted-foreground hover:text-primary block py-1 text-sm transition-colors"
                 >
                   {item.title}
                 </a>
@@ -283,17 +303,17 @@ export default function SiteDetailPage({ params }: Props) {
           {/* Score Vitebutnottoomuch */}
           <Card>
             <CardHeader>
-              <h3 className="font-semibold flex items-center gap-2">
+              <h3 className="flex items-center gap-2 font-semibold">
                 <TrendingUp className="h-4 w-4" />
                 Score Vitebutnottoomuch
               </h3>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-4xl font-bold text-primary mb-2">
+              <div className="text-primary mb-2 text-4xl font-bold">
                 {site.seo.vitebutnottoomuchScore.toFixed(1)}
               </div>
-              <div className="text-sm text-muted-foreground mb-4">/ 10</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-muted-foreground mb-4 text-sm">/ 10</div>
+              <p className="text-muted-foreground text-xs">
                 Équilibre parfait entre performance et fonctionnalités
               </p>
             </CardContent>
@@ -302,7 +322,7 @@ export default function SiteDetailPage({ params }: Props) {
           {/* Statistiques de performance */}
           <Card>
             <CardHeader>
-              <h3 className="font-semibold flex items-center gap-2">
+              <h3 className="flex items-center gap-2 font-semibold">
                 <Gauge className="h-4 w-4" />
                 Performance
               </h3>
@@ -311,18 +331,24 @@ export default function SiteDetailPage({ params }: Props) {
               {site.siteInfo.performance?.loadTime && (
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Temps de chargement</span>
-                  <span className="font-medium">{site.siteInfo.performance.loadTime}ms</span>
+                  <span className="font-medium">
+                    {site.siteInfo.performance.loadTime}ms
+                  </span>
                 </div>
               )}
               {site.siteInfo.performance?.firstPaint && (
                 <div className="flex items-center justify-between">
                   <span className="text-sm">First Paint</span>
-                  <span className="font-medium">{site.siteInfo.performance.firstPaint}ms</span>
+                  <span className="font-medium">
+                    {site.siteInfo.performance.firstPaint}ms
+                  </span>
                 </div>
               )}
               <div className="flex items-center justify-between">
                 <span className="text-sm">Mots analysés</span>
-                <span className="font-medium">{site.seo.wordCount.toLocaleString()}</span>
+                <span className="font-medium">
+                  {site.seo.wordCount.toLocaleString()}
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -330,48 +356,63 @@ export default function SiteDetailPage({ params }: Props) {
           {/* Technologies */}
           <Card>
             <CardHeader>
-              <h3 className="font-semibold flex items-center gap-2">
+              <h3 className="flex items-center gap-2 font-semibold">
                 <Code2 className="h-4 w-4" />
                 Technologies
               </h3>
             </CardHeader>
             <CardContent className="space-y-4">
-              {site.siteInfo.technologies.frameworks?.frontend && site.siteInfo.technologies.frameworks.frontend.length > 0 && (
-                <div>
-                  <div className="text-sm font-medium mb-2">Frontend</div>
-                  <div className="flex flex-wrap gap-1">
-                    {site.siteInfo.technologies.frameworks.frontend.map((tech) => (
-                      <Badge key={tech} variant="outline" className="text-xs">
-                        {tech}
-                      </Badge>
-                    ))}
+              {site.siteInfo.technologies.frameworks?.frontend &&
+                site.siteInfo.technologies.frameworks.frontend.length > 0 && (
+                  <div>
+                    <div className="mb-2 text-sm font-medium">Frontend</div>
+                    <div className="flex flex-wrap gap-1">
+                      {site.siteInfo.technologies.frameworks.frontend.map(
+                        (tech) => (
+                          <Badge
+                            key={tech}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {tech}
+                          </Badge>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-              {site.siteInfo.technologies.frameworks?.backend && site.siteInfo.technologies.frameworks.backend.length > 0 && (
-                <div>
-                  <div className="text-sm font-medium mb-2">Backend</div>
-                  <div className="flex flex-wrap gap-1">
-                    {site.siteInfo.technologies.frameworks.backend.map((tech) => (
-                      <Badge key={tech} variant="outline" className="text-xs">
-                        {tech}
-                      </Badge>
-                    ))}
+                )}
+              {site.siteInfo.technologies.frameworks?.backend &&
+                site.siteInfo.technologies.frameworks.backend.length > 0 && (
+                  <div>
+                    <div className="mb-2 text-sm font-medium">Backend</div>
+                    <div className="flex flex-wrap gap-1">
+                      {site.siteInfo.technologies.frameworks.backend.map(
+                        (tech) => (
+                          <Badge
+                            key={tech}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {tech}
+                          </Badge>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-              {site.siteInfo.technologies.analytics && site.siteInfo.technologies.analytics.length > 0 && (
-                <div>
-                  <div className="text-sm font-medium mb-2">Analytics</div>
-                  <div className="flex flex-wrap gap-1">
-                    {site.siteInfo.technologies.analytics.map((tech) => (
-                      <Badge key={tech} variant="outline" className="text-xs">
-                        {tech}
-                      </Badge>
-                    ))}
+                )}
+              {site.siteInfo.technologies.analytics &&
+                site.siteInfo.technologies.analytics.length > 0 && (
+                  <div>
+                    <div className="mb-2 text-sm font-medium">Analytics</div>
+                    <div className="flex flex-wrap gap-1">
+                      {site.siteInfo.technologies.analytics.map((tech) => (
+                        <Badge key={tech} variant="outline" className="text-xs">
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </CardContent>
           </Card>
         </aside>

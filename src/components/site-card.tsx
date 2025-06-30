@@ -32,10 +32,10 @@ export default function SiteCard({ site }: SiteCardProps) {
   };
 
   return (
-    <Card className="gap-4 px-4 hover:shadow-lg transition-all duration-200 group">
+    <Card className="group gap-4 px-4 transition-all duration-200 hover:shadow-lg">
       <CardHeader className="flex-row items-start justify-between px-0 pb-3">
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shrink-0">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <div className="bg-primary/10 text-primary flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg">
             {site.siteInfo.favicon ? (
               <Image
                 src={site.siteInfo.favicon}
@@ -48,18 +48,27 @@ export default function SiteCard({ site }: SiteCardProps) {
               <ExternalLink className="h-6 w-6" />
             )}
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
-              {site.title.replace(/^[\w.-]+ - /, '').split(' Vitebutnottoomuch')[0]}
+          <div className="min-w-0 flex-1">
+            <h3 className="group-hover:text-primary line-clamp-2 text-lg font-semibold transition-colors">
+              {
+                site.title
+                  .replace(/^[\w.-]+ - /, '')
+                  .split(' Vitebutnottoomuch')[0]
+              }
             </h3>
-            <p className="text-sm text-muted-foreground">{site.siteInfo.domain}</p>
+            <p className="text-muted-foreground text-sm">
+              {site.siteInfo.domain}
+            </p>
           </div>
         </div>
-        <ScoreBadge score={site.seo.vitebutnottoomuchScore} className="shrink-0" />
+        <ScoreBadge
+          score={site.seo.vitebutnottoomuchScore}
+          className="shrink-0"
+        />
       </CardHeader>
 
       <CardContent className="text-muted-foreground flex flex-col gap-4 px-0">
-        <div className="bg-muted aspect-video w-full rounded-lg relative overflow-hidden">
+        <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-lg">
           {site.siteInfo.logo ? (
             <Image
               src={site.siteInfo.logo}
@@ -68,20 +77,20 @@ export default function SiteCard({ site }: SiteCardProps) {
               className="object-cover transition-transform duration-200 group-hover:scale-105"
             />
           ) : (
-            <div className="flex items-center justify-center h-full bg-gradient-to-br from-primary/5 to-primary/10">
-              <ExternalLink className="h-12 w-12 text-muted-foreground/50" />
+            <div className="from-primary/5 to-primary/10 flex h-full items-center justify-center bg-gradient-to-br">
+              <ExternalLink className="text-muted-foreground/50 h-12 w-12" />
             </div>
           )}
         </div>
-        
-        <p className="text-sm line-clamp-3 leading-relaxed">
+
+        <p className="line-clamp-3 text-sm leading-relaxed">
           {site.metaDescription}
         </p>
 
         {/* Technologies */}
         {getTechBadges().length > 0 && (
           <div className="flex items-center gap-2">
-            <Code2 className="h-4 w-4 text-muted-foreground" />
+            <Code2 className="text-muted-foreground h-4 w-4" />
             <div className="flex flex-wrap gap-1">
               {getTechBadges().map((tech) => (
                 <Badge key={tech} variant="outline" className="text-xs">
@@ -102,7 +111,7 @@ export default function SiteCard({ site }: SiteCardProps) {
         </div>
 
         {/* Meta info */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="text-muted-foreground flex items-center justify-between text-xs">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             <span>{site.seo.readingTime} min</span>
@@ -119,15 +128,20 @@ export default function SiteCard({ site }: SiteCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter className="p-0 flex gap-2">
+      <CardFooter className="flex gap-2 p-0">
         <Button asChild className="group/btn flex-1">
           <Link href={`/sites/${site.slug}`}>
-            Voir l'analyse
+            Voir l&apos;analyse
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
-          <a href={site.url} target="_blank" rel="noopener noreferrer" title="Visiter le site">
+          <a
+            href={site.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Visiter le site"
+          >
             <ExternalLink className="h-4 w-4" />
           </a>
         </Button>
