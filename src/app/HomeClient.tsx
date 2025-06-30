@@ -70,7 +70,7 @@ export default function HomeClient({
                     {stats.total}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-sm">Sites analysés</p>
+                <p className="text-muted-foreground text-sm">Sites analysés :</p>
               </div>
               <div className="text-center">
                 <div className="mb-2 flex items-center justify-center gap-2">
