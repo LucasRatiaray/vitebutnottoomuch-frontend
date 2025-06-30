@@ -1,10 +1,10 @@
 {
-  "version": "1751271753078",
-  "generated": "2025-06-30T08:22:33.078Z",
-  "lastUpdate": "2025-06-29T13:08:38.508Z",
+  "version": "1751293342000",
+  "generated": "2025-06-30T14:22:22.000Z",
+  "lastUpdate": "2025-06-30T14:12:00.599Z",
   "stats": {
-    "total": 8,
-    "enriched": 8,
+    "total": 9,
+    "enriched": 9,
     "categories": [
       "Build Tools",
       "Collaboration-Équipe",
@@ -15,9 +15,11 @@
       "Frontend",
       "JavaScript",
       "Outils de Développement",
-      "Outils-Développement"
+      "Outils-Développement",
+      "Plateformes E-commerce",
+      "Sites Communautaires"
     ],
     "technologies": {},
-    "avgVitebutnottoomuchScore": 6.9
+    "avgVitebutnottoomuchScore": 7
   }
 }
