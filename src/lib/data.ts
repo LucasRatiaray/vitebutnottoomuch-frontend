@@ -1,160 +1,41 @@
-import { BackendData, Site } from './types';
+import { ExportData, Site } from './types';
+import exportData from '@/data/export.json';
 
-// Pour le développement, on utilise des données mockées
-// En production, ceci sera remplacé par le fetch du JSON du backend
-const MOCK_DATA: BackendData = {
-  version: "2024-12-28T10:00:00Z",
-  lastUpdate: "2024-12-28T10:00:00Z",
-  stats: {
-    total: 150,
-    categories: ["E-commerce", "SaaS", "Blog", "Portfolio", "Fintech", "Design"],
-    avgVitebutnottoomuchScore: 8.2
-  },
-  pages: [
-    {
-      id: "stripe-analyse",
-      slug: "stripe-analyse-complete",
-      url: "https://stripe.com",
-      title: "Stripe - Analyse Complète de la Plateforme de Paiement Leader",
-      metaDescription: "Découvrez Stripe : analyse approfondie de la plateforme de paiement qui révolutionne les transactions en ligne avec une approche Vitebutnottoomuch.",
-      scrapedAt: "2024-12-27T15:30:00Z",
-      enrichedAt: "2024-12-27T15:35:00Z",
-      siteInfo: {
-        domain: "stripe.com",
-        favicon: "https://stripe.com/favicon.ico",
-        logo: "https://stripe.com/logo.png",
-        technologies: {
-          cms: [],
-          frameworks: {
-            frontend: ["React", "Next.js"],
-            backend: ["Ruby on Rails"]
-          },
-          analytics: ["Google Analytics"],
-          cdn: ["Cloudflare"]
-        },
-        performance: {
-          loadTime: 2341,
-          firstPaint: 892
-        }
-      },
-      content: {
-        introduction: "Stripe est une plateforme de paiement en ligne qui a révolutionné la façon dont les entreprises acceptent les paiements sur internet.",
-        sections: [
-          {
-            title: "Vue d'ensemble",
-            content: "Stripe propose une API complète pour intégrer facilement les paiements dans n'importe quelle application web ou mobile."
-          },
-          {
-            title: "Analyse technique",
-            content: "L'architecture de Stripe repose sur des API RESTful robustes et une infrastructure cloud hautement disponible."
-          },
-          {
-            title: "L'approche Vitebutnottoomuch",
-            content: "Stripe illustre parfaitement le concept vitebutnottoomuch : une performance équilibrée entre vitesse d'exécution et richesse fonctionnelle."
-          }
-        ],
-        conclusion: "Stripe reste une référence incontournable pour les paiements en ligne, alliant simplicité d'intégration et puissance technique."
-      },
-      seo: {
-        categories: ["Fintech", "API", "Paiements"],
-        tags: ["payment", "api", "stripe", "developer-friendly"],
-        keywords: ["stripe", "paiement en ligne", "api payment", "vitebutnottoomuch"],
-        vitebutnottoomuchScore: 9.2,
-        wordCount: 1856,
-        readingTime: 9
-      }
-    },
-    {
-      id: "figma-design",
-      slug: "figma-design-collaboratif",
-      url: "https://figma.com",
-      title: "Figma - L'Outil de Design Collaboratif Vitebutnottoomuch",
-      metaDescription: "Analyse complète de Figma : comment cet outil révolutionne le design collaboratif avec une approche Vitebutnottoomuch parfaite.",
-      scrapedAt: "2024-12-27T14:20:00Z",
-      enrichedAt: "2024-12-27T14:25:00Z",
-      siteInfo: {
-        domain: "figma.com",
-        favicon: "https://figma.com/favicon.ico",
-        logo: "https://figma.com/logo.png",
-        technologies: {
-          cms: [],
-          frameworks: {
-            frontend: ["React", "WebAssembly"],
-            backend: ["Node.js"]
-          },
-          analytics: ["Google Analytics", "Mixpanel"],
-          cdn: ["AWS CloudFront"]
-        },
-        performance: {
-          loadTime: 1890,
-          firstPaint: 650
-        }
-      },
-      content: {
-        introduction: "Figma a transformé le paysage du design numérique en proposant un outil collaboratif entièrement basé sur le web.",
-        sections: [
-          {
-            title: "Innovation technique",
-            content: "Figma utilise WebAssembly pour offrir des performances natives dans le navigateur, un exemple parfait de l'approche vitebutnottoomuch."
-          },
-          {
-            title: "Collaboration en temps réel",
-            content: "La synchronisation en temps réel permet à plusieurs designers de travailler simultanément sur le même fichier."
-          },
-          {
-            title: "Philosophie Vitebutnottoomuch",
-            content: "Figma démontre qu'il est possible d'avoir un outil puissant tout en restant rapide et accessible, incarnant parfaitement vitebutnottoomuch."
-          }
-        ],
-        conclusion: "Figma continue d'être la référence du design collaboratif, prouvant que performance et fonctionnalités peuvent coexister harmonieusement."
-      },
-      seo: {
-        categories: ["Design", "SaaS", "Collaboration"],
-        tags: ["design", "figma", "collaboration", "ui-ux"],
-        keywords: ["figma", "design collaboratif", "ui design", "vitebutnottoomuch"],
-        vitebutnottoomuchScore: 8.8,
-        wordCount: 1654,
-        readingTime: 8
-      }
-    }
-  ]
-};
+// Importer les vraies données du backend
+const siteData: ExportData = exportData as ExportData;
 
-// Fonction pour charger les données du backend
-export async function loadBackendData(): Promise<BackendData> {
-  // En développement, on retourne les données mockées
-  if (process.env.NODE_ENV === 'development') {
-    return MOCK_DATA;
-  }
-  
-  // En production, on chargerait le JSON du backend
-  try {
-    // const response = await fetch('/api/data.json');
-    // const data = await response.json();
-    // return data;
-    return MOCK_DATA; // Temporaire jusqu'à ce que le backend soit connecté
-  } catch (error) {
-    console.error('Erreur lors du chargement des données:', error);
-    return MOCK_DATA; // Fallback sur les données mockées
-  }
-}
+// Export des données principales
+export const sites: Site[] = siteData.pages;
+export const categories: string[] = siteData.stats.categories;
+export const totalSites = siteData.stats.total;
+export const avgScore = siteData.stats.avgVitebutnottoomuchScore;
+export const stats = siteData.stats;
 
 // Fonction pour récupérer tous les sites
 export async function getAllSites(): Promise<Site[]> {
-  const data = await loadBackendData();
-  return data.pages;
+  return sites;
 }
 
 // Fonction pour récupérer un site par son slug
 export async function getSiteBySlug(slug: string): Promise<Site | null> {
-  const data = await loadBackendData();
-  return data.pages.find(site => site.slug === slug) || null;
+  return sites.find(site => site.slug === slug) || null;
+}
+
+export function getSiteBySlugSync(slug: string): Site | null {
+  return sites.find(site => site.slug === slug) || null;
 }
 
 // Fonction pour récupérer les sites par catégorie
 export async function getSitesByCategory(category: string): Promise<Site[]> {
-  const data = await loadBackendData();
-  return data.pages.filter(site => 
+  return sites.filter(site => 
+    site.seo.categories.some(cat => 
+      cat.toLowerCase().includes(category.toLowerCase())
+    )
+  );
+}
+
+export function getSitesByCategorySync(category: string): Site[] {
+  return sites.filter(site => 
     site.seo.categories.some(cat => 
       cat.toLowerCase().includes(category.toLowerCase())
     )
@@ -163,15 +44,12 @@ export async function getSitesByCategory(category: string): Promise<Site[]> {
 
 // Fonction pour récupérer les statistiques globales
 export async function getStats() {
-  const data = await loadBackendData();
-  return data.stats;
+  return stats;
 }
 
 // Fonction pour récupérer les sites similaires
 export async function getSimilarSites(currentSite: Site, limit: number = 3): Promise<Site[]> {
-  const data = await loadBackendData();
-  
-  return data.pages
+  return sites
     .filter(site => site.id !== currentSite.id)
     .filter(site => 
       site.seo.categories.some(cat => 
@@ -183,19 +61,72 @@ export async function getSimilarSites(currentSite: Site, limit: number = 3): Pro
 }
 
 // Fonction pour récupérer les sites les mieux notés
-export async function getTopSites(limit: number = 10): Promise<Site[]> {
-  const data = await loadBackendData();
-  
-  return data.pages
+export async function getTopSites(limit: number = 5): Promise<Site[]> {
+  return sites
+    .sort((a, b) => b.seo.vitebutnottoomuchScore - a.seo.vitebutnottoomuchScore)
+    .slice(0, limit);
+}
+
+export function getTopSitesSync(limit: number = 5): Site[] {
+  return sites
     .sort((a, b) => b.seo.vitebutnottoomuchScore - a.seo.vitebutnottoomuchScore)
     .slice(0, limit);
 }
 
 // Fonction pour récupérer les sites récents
 export async function getRecentSites(limit: number = 6): Promise<Site[]> {
-  const data = await loadBackendData();
-  
-  return data.pages
+  return sites
     .sort((a, b) => new Date(b.enrichedAt).getTime() - new Date(a.enrichedAt).getTime())
     .slice(0, limit);
+}
+
+export function getRecentSitesSync(limit: number = 6): Site[] {
+  return sites
+    .sort((a, b) => new Date(b.enrichedAt).getTime() - new Date(a.enrichedAt).getTime())
+    .slice(0, limit);
+}
+
+// Fonction helper pour les variants de badge selon le score
+export function getScoreVariant(score: number): "default" | "secondary" | "outline" {
+  if (score >= 8) return "default";
+  if (score >= 6.5) return "secondary";
+  return "outline";
+}
+
+// Fonction pour générer les paramètres statiques
+export function getAllSlugs(): string[] {
+  return sites.map(site => site.slug);
+}
+
+// Fonction pour rechercher des sites
+export function searchSites(query: string): Site[] {
+  const lowercaseQuery = query.toLowerCase();
+  return sites.filter(site => 
+    site.title.toLowerCase().includes(lowercaseQuery) ||
+    site.metaDescription.toLowerCase().includes(lowercaseQuery) ||
+    site.siteInfo.domain.toLowerCase().includes(lowercaseQuery) ||
+    site.seo.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)) ||
+    site.seo.categories.some(cat => cat.toLowerCase().includes(lowercaseQuery))
+  );
+}
+
+// Fonction pour filtrer par score
+export function filterSitesByScore(minScore: number, maxScore: number = 10): Site[] {
+  return sites.filter(site => 
+    site.seo.vitebutnottoomuchScore >= minScore && 
+    site.seo.vitebutnottoomuchScore <= maxScore
+  );
+}
+
+// Fonction pour filtrer par technologies
+export function filterSitesByTechnology(technology: string): Site[] {
+  return sites.filter(site => {
+    const tech = site.siteInfo.technologies;
+    return (
+      tech.frameworks?.frontend?.some(t => t.toLowerCase().includes(technology.toLowerCase())) ||
+      tech.frameworks?.backend?.some(t => t.toLowerCase().includes(technology.toLowerCase())) ||
+      tech.cms?.some(t => t.toLowerCase().includes(technology.toLowerCase())) ||
+      tech.analytics?.some(t => t.toLowerCase().includes(technology.toLowerCase()))
+    );
+  });
 }

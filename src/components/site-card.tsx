@@ -7,94 +7,127 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { ArrowRight, ExternalLink, Clock, Star } from 'lucide-react';
+import { ArrowRight, ExternalLink, Clock, Gauge, Code2 } from 'lucide-react';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Site } from '@/lib/types';
+import { ScoreBadge } from '@/components/score-badge';
 
 interface SiteCardProps {
   site: Site;
 }
 
 export default function SiteCard({ site }: SiteCardProps) {
+  // Récupérer les technologies principales
+  const getTechBadges = () => {
+    const techs = [];
+    if (site.siteInfo.technologies.frameworks?.frontend) {
+      techs.push(...site.siteInfo.technologies.frameworks.frontend.slice(0, 2));
+    }
+    if (site.siteInfo.technologies.frameworks?.backend) {
+      techs.push(...site.siteInfo.technologies.frameworks.backend.slice(0, 1));
+    }
+    return techs.slice(0, 3);
+  };
+
   return (
-    <Card className="gap-4 px-4 hover:shadow-lg transition-shadow">
-      <CardHeader className="flex-row items-center gap-3 px-0 font-semibold">
-        <div className="bg-primary text-primary-foreground flex h-10 w-10 items-center justify-center rounded-full overflow-hidden">
-          {site.siteInfo.favicon ? (
-            <Image
-              src={site.siteInfo.favicon}
-              alt={`${site.siteInfo.domain} favicon`}
-              width={24}
-              height={24}
-              className="rounded"
-            />
-          ) : (
-            <ExternalLink className="h-5 w-5" />
-          )}
+    <Card className="gap-4 px-4 hover:shadow-lg transition-all duration-200 group">
+      <CardHeader className="flex-row items-start justify-between px-0 pb-3">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden shrink-0">
+            {site.siteInfo.favicon ? (
+              <Image
+                src={site.siteInfo.favicon}
+                alt={`${site.siteInfo.domain} favicon`}
+                width={32}
+                height={32}
+                className="rounded"
+              />
+            ) : (
+              <ExternalLink className="h-6 w-6" />
+            )}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+              {site.title.replace(/^[\w.-]+ - /, '').split(' Vitebutnottoomuch')[0]}
+            </h3>
+            <p className="text-sm text-muted-foreground">{site.siteInfo.domain}</p>
+          </div>
         </div>
-        <div className="flex-1">
-          <h3 className="text-base font-semibold line-clamp-1">{site.title}</h3>
-          <p className="text-sm text-muted-foreground">{site.siteInfo.domain}</p>
-        </div>
-        <div className="flex items-center gap-1">
-          <Star className="h-4 w-4 text-yellow-500 fill-current" />
-          <span className="text-sm font-medium">{site.seo.vitebutnottoomuchScore}</span>
-        </div>
+        <ScoreBadge score={site.seo.vitebutnottoomuchScore} className="shrink-0" />
       </CardHeader>
 
-      <CardContent className="text-muted-foreground flex flex-col gap-3 px-0">
-        <div className="bg-muted aspect-video w-full rounded-xl relative overflow-hidden">
+      <CardContent className="text-muted-foreground flex flex-col gap-4 px-0">
+        <div className="bg-muted aspect-video w-full rounded-lg relative overflow-hidden">
           {site.siteInfo.logo ? (
             <Image
               src={site.siteInfo.logo}
               alt={`${site.siteInfo.domain} preview`}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-200 group-hover:scale-105"
             />
           ) : (
-            <div className="flex items-center justify-center h-full">
-              <ExternalLink className="h-8 w-8 text-muted-foreground" />
+            <div className="flex items-center justify-center h-full bg-gradient-to-br from-primary/5 to-primary/10">
+              <ExternalLink className="h-12 w-12 text-muted-foreground/50" />
             </div>
           )}
         </div>
         
-        <p className="text-sm line-clamp-3">
+        <p className="text-sm line-clamp-3 leading-relaxed">
           {site.metaDescription}
         </p>
 
-        <div className="flex flex-wrap gap-2">
-          {site.seo.categories.slice(0, 3).map((category) => (
+        {/* Technologies */}
+        {getTechBadges().length > 0 && (
+          <div className="flex items-center gap-2">
+            <Code2 className="h-4 w-4 text-muted-foreground" />
+            <div className="flex flex-wrap gap-1">
+              {getTechBadges().map((tech) => (
+                <Badge key={tech} variant="outline" className="text-xs">
+                  {tech}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Categories */}
+        <div className="flex flex-wrap gap-1">
+          {site.seo.categories.slice(0, 2).map((category) => (
             <Badge key={category} variant="secondary" className="text-xs">
               {category}
             </Badge>
           ))}
         </div>
 
-        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+        {/* Meta info */}
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             <span>{site.seo.readingTime} min</span>
           </div>
-          <div>
-            {site.seo.wordCount.toLocaleString()} mots
+          <div className="flex items-center gap-1">
+            <span>{site.seo.wordCount.toLocaleString()} mots</span>
           </div>
-          <div>
-            {site.siteInfo.performance.loadTime}ms
-          </div>
+          {site.siteInfo.performance?.loadTime && (
+            <div className="flex items-center gap-1">
+              <Gauge className="h-3 w-3" />
+              <span>{site.siteInfo.performance.loadTime}ms</span>
+            </div>
+          )}
         </div>
       </CardContent>
 
       <CardFooter className="p-0 flex gap-2">
-        <Button asChild className="group flex-1">
+        <Button asChild className="group/btn flex-1">
           <Link href={`/sites/${site.slug}`}>
             Voir l'analyse
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
           </Link>
         </Button>
         <Button variant="outline" size="sm" asChild>
-          <a href={site.url} target="_blank" rel="noopener noreferrer">
+          <a href={site.url} target="_blank" rel="noopener noreferrer" title="Visiter le site">
             <ExternalLink className="h-4 w-4" />
           </a>
         </Button>

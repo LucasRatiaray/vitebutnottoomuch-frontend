@@ -1,26 +1,29 @@
 // Types correspondant aux données du backend Vitebutnottoomuch
 
 export interface Technology {
-  cms: string[];
-  frameworks: {
-    frontend: string[];
-    backend: string[];
+  cms?: string[];
+  frameworks?: {
+    frontend?: string[];
+    backend?: string[];
   };
-  analytics: string[];
-  cdn: string[];
+  analytics?: string[];
+  cdn?: string[];
+  hosting?: string[];
+  payment?: string[];
+  marketing?: string[];
 }
 
 export interface Performance {
-  loadTime: number;
-  firstPaint: number;
+  loadTime?: number;
+  firstPaint?: number;
 }
 
 export interface SiteInfo {
   domain: string;
-  favicon: string;
-  logo: string;
+  favicon?: string;
+  logo?: string;
   technologies: Technology;
-  performance: Performance;
+  performance?: Performance;
 }
 
 export interface ContentSection {
@@ -51,6 +54,7 @@ export interface Site {
   metaDescription: string;
   scrapedAt: string;
   enrichedAt: string;
+  lastModified?: string;
   siteInfo: SiteInfo;
   content: SiteContent;
   seo: SiteSEO;
@@ -58,12 +62,15 @@ export interface Site {
 
 export interface DataStats {
   total: number;
+  enriched: number;
   categories: string[];
+  technologies: Record<string, number>;
   avgVitebutnottoomuchScore: number;
 }
 
-export interface BackendData {
+export interface ExportData {
   version: string;
+  generated: string;
   lastUpdate: string;
   stats: DataStats;
   pages: Site[];
@@ -82,4 +89,12 @@ export interface CategoryPageProps {
 export interface SiteDetailProps {
   site: Site;
   relatedSites?: Site[];
+}
+
+// Helper type pour les badges de score
+export type ScoreVariant = "default" | "secondary" | "outline";
+
+export interface ScoreBadgeProps {
+  score: number;
+  className?: string;
 }

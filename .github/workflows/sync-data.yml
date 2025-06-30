@@ -1,0 +1,234 @@
+# 🔄 GitHub Action pour le frontend Vitebutnottoomuch
+# À placer dans: frontend/.github/workflows/sync-data.yml
+
+name: 🔄 Sync Backend Data
+
+on:
+  # Déclenchement manuel depuis GitHub
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: 'Forcer la mise à jour même si pas de nouvelle version'
+        required: false
+        default: 'false'
+        type: boolean
+  
+  # Déclenchement automatique via webhook depuis le backend
+  repository_dispatch:
+    types: [sync-data]
+  
+  # Backup automatique toutes les 12h
+  schedule:
+    - cron: '0 */12 * * *'
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🏁 Checkout Frontend Repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: 📋 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'pnpm'
+    
+    - name: 📦 Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    
+    - name: 🔍 Check Current Version
+      id: check-version
+      run: |
+        # Créer le dossier data s'il n'existe pas
+        mkdir -p src/data
+        
+        # Récupérer la version locale actuelle
+        LOCAL_VERSION="0"
+        if [ -f "src/data/version.txt" ]; then
+          LOCAL_VERSION=$(cat src/data/version.txt)
+        fi
+        
+        echo "local_version=$LOCAL_VERSION" >> $GITHUB_OUTPUT
+        echo "📍 Version locale actuelle: $LOCAL_VERSION"
+    
+    - name: 📥 Download Backend Data
+      id: download
+      run: |
+        echo "🔄 Simulation du téléchargement des données backend..."
+        
+        # Pour l'instant, on simule car le backend est local
+        # Dans un vrai setup, on ferait:
+        # curl -s ${{ secrets.BACKEND_API_URL }}/exports/data.min.json > src/data/export.json
+        # curl -s ${{ secrets.BACKEND_API_URL }}/exports/meta.json > src/data/meta.json
+        # curl -s ${{ secrets.BACKEND_API_URL }}/exports/version.txt > src/data/version.txt
+        
+        # Simulation avec données de test
+        cat > src/data/export.json << 'EOF'
+        {
+          "version": "$(date +%s)000",
+          "generated": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)",
+          "lastUpdate": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)",
+          "stats": {
+            "total": 8,
+            "enriched": 8,
+            "categories": ["Développement Web", "Frameworks JavaScript"],
+            "technologies": {},
+            "avgVitebutnottoomuchScore": 6.9
+          },
+          "pages": []
+        }
+        EOF
+        
+        # Générer une nouvelle version pour test
+        NEW_VERSION="$(date +%s)000"
+        echo "$NEW_VERSION" > src/data/version.txt
+        
+        # Créer meta.json
+        cat > src/data/meta.json << EOF
+        {
+          "version": "$NEW_VERSION",
+          "generated": "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)",
+          "stats": {
+            "total": 8,
+            "enriched": 8,
+            "categories": ["Développement Web", "Frameworks JavaScript"],
+            "avgVitebutnottoomuchScore": 6.9
+          }
+        }
+        EOF
+        
+        echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "📦 Nouvelles données téléchargées (version: $NEW_VERSION)"
+    
+    - name: ✅ Validate Data
+      run: |
+        echo "🔍 Validation des données téléchargées..."
+        
+        # Vérifier que le JSON est valide
+        if ! jq . src/data/export.json > /dev/null; then
+          echo "❌ JSON export invalide"
+          exit 1
+        fi
+        
+        if ! jq . src/data/meta.json > /dev/null; then
+          echo "❌ JSON meta invalide"
+          exit 1
+        fi
+        
+        # Vérifier que la version existe
+        if [ ! -f "src/data/version.txt" ]; then
+          echo "❌ Fichier version manquant"
+          exit 1
+        fi
+        
+        NEW_VERSION=$(cat src/data/version.txt)
+        PAGES_COUNT=$(jq -r '.stats.total // 0' src/data/export.json)
+        SCORE=$(jq -r '.stats.avgVitebutnottoomuchScore // 0' src/data/export.json)
+        
+        echo "✅ Données valides:"
+        echo "   • Version: $NEW_VERSION"
+        echo "   • Pages: $PAGES_COUNT"
+        echo "   • Score moyen: $SCORE/10"
+    
+    - name: 🔄 Check if Update Needed
+      id: should-update
+      run: |
+        LOCAL_VERSION="${{ steps.check-version.outputs.local_version }}"
+        NEW_VERSION="${{ steps.download.outputs.new_version }}"
+        FORCE_UPDATE="${{ github.event.inputs.force_update }}"
+        
+        if [ "$NEW_VERSION" != "$LOCAL_VERSION" ] || [ "$FORCE_UPDATE" = "true" ]; then
+          echo "needs_update=true" >> $GITHUB_OUTPUT
+          echo "🔄 Mise à jour nécessaire (Local: $LOCAL_VERSION → Nouveau: $NEW_VERSION)"
+        else
+          echo "needs_update=false" >> $GITHUB_OUTPUT
+          echo "✅ Aucune mise à jour nécessaire (Version: $LOCAL_VERSION)"
+        fi
+    
+    - name: 📝 Commit Changes
+      if: steps.should-update.outputs.needs_update == 'true'
+      run: |
+        # Configuration Git
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Ajouter les fichiers
+        git add src/data/
+        
+        # Vérifier s'il y a des changements
+        if git diff --staged --quiet; then
+          echo "📋 Aucun changement détecté"
+          exit 0
+        fi
+        
+        # Créer le commit
+        NEW_VERSION="${{ steps.download.outputs.new_version }}"
+        PAGES_COUNT=$(jq -r '.stats.total // 0' src/data/export.json)
+        SCORE=$(jq -r '.stats.avgVitebutnottoomuchScore // 0' src/data/export.json)
+        
+        git commit -m "🔄 Update backend data - v$NEW_VERSION
+
+        📊 Statistiques:
+        • $PAGES_COUNT pages enrichies
+        • Score moyen: $SCORE/10
+        • Généré: $(date -u +%Y-%m-%d\ %H:%M:%S) UTC
+        
+        🤖 Auto-sync via GitHub Actions"
+        
+        echo "📝 Changements commitées"
+    
+    - name: 🚀 Push Changes
+      if: steps.should-update.outputs.needs_update == 'true'
+      run: |
+        git push origin main
+        echo "🚀 Changements pushés vers main"
+    
+    - name: 🔔 Trigger Vercel Deploy
+      if: steps.should-update.outputs.needs_update == 'true'
+      run: |
+        if [ -n "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then
+          echo "🚀 Déclenchement du déploiement Vercel..."
+          
+          RESPONSE=$(curl -s -w "%{http_code}" -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}")
+          HTTP_CODE="${RESPONSE: -3}"
+          
+          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ]; then
+            echo "✅ Déploiement Vercel déclenché avec succès"
+          else
+            echo "⚠️ Échec du déploiement Vercel (Code: $HTTP_CODE)"
+          fi
+        else
+          echo "⚠️ VERCEL_DEPLOY_HOOK non configuré dans les secrets"
+        fi
+    
+    - name: 📊 Summary
+      if: always()
+      run: |
+        echo "## 📋 Résumé de la synchronisation" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ steps.should-update.outputs.needs_update }}" = "true" ]; then
+          NEW_VERSION="${{ steps.download.outputs.new_version }}"
+          PAGES_COUNT=$(jq -r '.stats.total // 0' src/data/export.json 2>/dev/null || echo "N/A")
+          SCORE=$(jq -r '.stats.avgVitebutnottoomuchScore // 0' src/data/export.json 2>/dev/null || echo "N/A")
+          
+          echo "### ✅ Mise à jour effectuée" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: $NEW_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "- **Pages**: $PAGES_COUNT sites enrichis" >> $GITHUB_STEP_SUMMARY
+          echo "- **Score moyen**: $SCORE/10" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: Déploiement en cours sur Vercel" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "### ℹ️ Aucune mise à jour nécessaire" >> $GITHUB_STEP_SUMMARY
+          echo "Les données sont déjà à jour." >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "🔗 **Liens utiles**:" >> $GITHUB_STEP_SUMMARY
+        echo "- [Dashboard Vercel](https://vercel.com/dashboard)" >> $GITHUB_STEP_SUMMARY
+        echo "- [Site frontend](https://vitebutnottoomuch.vercel.app)" >> $GITHUB_STEP_SUMMARY
