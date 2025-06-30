@@ -32,6 +32,7 @@ const STATIC_SEGMENTS: Record<
 function humanize(seg: string) {
   return seg
     .split('-')
+    .filter((w) => w.length > 0) // Filtrer les chaînes vides
     .map((w) => w[0].toUpperCase() + w.slice(1))
     .join(' ');
 }

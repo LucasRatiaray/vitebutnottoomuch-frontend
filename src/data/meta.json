@@ -1,0 +1,23 @@
+{
+  "version": "1751271753078",
+  "generated": "2025-06-30T08:22:33.078Z",
+  "lastUpdate": "2025-06-29T13:08:38.508Z",
+  "stats": {
+    "total": 8,
+    "enriched": 8,
+    "categories": [
+      "Build Tools",
+      "Collaboration-Équipe",
+      "Développement Frontend",
+      "Développement Web",
+      "Frameworks CSS",
+      "Frameworks JavaScript",
+      "Frontend",
+      "JavaScript",
+      "Outils de Développement",
+      "Outils-Développement"
+    ],
+    "technologies": {},
+    "avgVitebutnottoomuchScore": 6.9
+  }
+}

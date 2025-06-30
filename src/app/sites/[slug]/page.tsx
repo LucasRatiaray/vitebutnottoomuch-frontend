@@ -97,7 +97,7 @@ export default function SiteDetailPage({ params }: Props) {
   ];
 
   return (
-    <article className="mx-auto max-w-7xl px-6 py-8">
+    <article className="">
       {/* Navigation */}
       <nav className="mb-8">
         <Button variant="ghost" asChild>
@@ -230,17 +230,17 @@ export default function SiteDetailPage({ params }: Props) {
             ))}
           </div>
 
-          <Separator className="my-12" />
+          {/* <Separator className="my-12" /> */}
 
           {/* Conclusion */}
-          <section id="conclusion" className="mb-12">
+          {/* <section id="conclusion" className="mb-12">
             <h2 className="text-3xl font-bold mb-6 text-primary">Conclusion</h2>
             <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-8">
               <p className="text-lg leading-relaxed">
                 {site.content.conclusion}
               </p>
             </div>
-          </section>
+          </section> */}
 
           {/* CTA Final */}
           <div className="text-center py-8 border-t">
@@ -378,7 +378,7 @@ export default function SiteDetailPage({ params }: Props) {
       </div>
 
       {/* Similar Sites */}
-      {similarSites && similarSites.length > 0 && (
+      {/* {similarSites && similarSites.length > 0 && (
         <section className="mt-16">
           <h2 className="text-3xl font-bold mb-8 text-center">
             Sites similaires avec un excellent score Vitebutnottoomuch
@@ -389,7 +389,7 @@ export default function SiteDetailPage({ params }: Props) {
             ))}
           </div>
         </section>
-      )}
+      )} */}
     </article>
   );
 }
