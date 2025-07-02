@@ -92,15 +92,20 @@ export default async function SiteDetailPage({ params }: Props) {
   }
 
   // Table des matières
-  const tableOfContents = [
-    { id: 'introduction', title: 'Introduction', href: '#introduction' },
-    ...site.content.sections.map((section, index) => ({
-      id: `section-${index}`,
-      title: section.title,
-      href: `#section-${index}`,
-    })),
-    { id: 'conclusion', title: 'Conclusion', href: '#conclusion' },
-  ];
+  const tableOfContents = site.content.sections.map((section, index) => ({
+    id: `section-${index}`,
+    title: section.title,
+    href: `#section-${index}`,
+  }));
+
+  // Vérifier si il y a des technologies à afficher
+  const hasTechnologies =
+    (site.siteInfo.technologies.frameworks?.frontend &&
+      site.siteInfo.technologies.frameworks.frontend.length > 0) ||
+    (site.siteInfo.technologies.frameworks?.backend &&
+      site.siteInfo.technologies.frameworks.backend.length > 0) ||
+    (site.siteInfo.technologies.analytics &&
+      site.siteInfo.technologies.analytics.length > 0);
 
   return (
     <article className="">
@@ -148,10 +153,6 @@ export default async function SiteDetailPage({ params }: Props) {
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4" />
                     <span>{site.seo.readingTime} min de lecture</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4" />
-                    <span>{site.seo.wordCount.toLocaleString()} mots</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
@@ -278,7 +279,7 @@ export default async function SiteDetailPage({ params }: Props) {
         </div>
 
         {/* Sidebar */}
-        <aside className="space-y-6 lg:sticky lg:top-8 lg:self-start">
+        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           {/* Table des matières */}
           <Card>
             <CardHeader>
@@ -309,66 +310,70 @@ export default async function SiteDetailPage({ params }: Props) {
               </h3>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="text-primary mb-2 text-4xl font-bold">
+              <div className="text-primary mb-4 text-4xl font-bold">
                 {site.seo.vitebutnottoomuchScore.toFixed(1)}
+                <span className="text-muted-foreground ml-2 text-lg">/ 10</span>
               </div>
-              <div className="text-muted-foreground mb-4 text-sm">/ 10</div>
               <p className="text-muted-foreground text-xs">
                 Équilibre parfait entre performance et fonctionnalités
               </p>
             </CardContent>
           </Card>
 
-          {/* Statistiques de performance */}
-          <Card>
-            <CardHeader>
-              <h3 className="flex items-center gap-2 font-semibold">
-                <Gauge className="h-4 w-4" />
-                Performance
-              </h3>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {site.siteInfo.performance?.loadTime && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Temps de chargement</span>
-                  <span className="font-medium">
-                    {site.siteInfo.performance.loadTime}ms
-                  </span>
-                </div>
-              )}
-              {site.siteInfo.performance?.firstPaint && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">First Paint</span>
-                  <span className="font-medium">
-                    {site.siteInfo.performance.firstPaint}ms
-                  </span>
-                </div>
-              )}
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Mots analysés</span>
-                <span className="font-medium">
-                  {site.seo.wordCount.toLocaleString()}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Technologies */}
-          <Card>
-            <CardHeader>
-              <h3 className="flex items-center gap-2 font-semibold">
-                <Code2 className="h-4 w-4" />
-                Technologies
-              </h3>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {site.siteInfo.technologies.frameworks?.frontend &&
-                site.siteInfo.technologies.frameworks.frontend.length > 0 && (
-                  <div>
-                    <div className="mb-2 text-sm font-medium">Frontend</div>
-                    <div className="flex flex-wrap gap-1">
-                      {site.siteInfo.technologies.frameworks.frontend.map(
-                        (tech) => (
+          {hasTechnologies && (
+            <Card>
+              <CardHeader>
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <Code2 className="h-4 w-4" />
+                  Technologies
+                </h3>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {site.siteInfo.technologies.frameworks?.frontend &&
+                  site.siteInfo.technologies.frameworks.frontend.length > 0 && (
+                    <div>
+                      <div className="mb-2 text-sm font-medium">Frontend</div>
+                      <div className="flex flex-wrap gap-1">
+                        {site.siteInfo.technologies.frameworks.frontend.map(
+                          (tech) => (
+                            <Badge
+                              key={tech}
+                              variant="outline"
+                              className="text-xs"
+                            >
+                              {tech}
+                            </Badge>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                {site.siteInfo.technologies.frameworks?.backend &&
+                  site.siteInfo.technologies.frameworks.backend.length > 0 && (
+                    <div>
+                      <div className="mb-2 text-sm font-medium">Backend</div>
+                      <div className="flex flex-wrap gap-1">
+                        {site.siteInfo.technologies.frameworks.backend.map(
+                          (tech) => (
+                            <Badge
+                              key={tech}
+                              variant="outline"
+                              className="text-xs"
+                            >
+                              {tech}
+                            </Badge>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                {site.siteInfo.technologies.analytics &&
+                  site.siteInfo.technologies.analytics.length > 0 && (
+                    <div>
+                      <div className="mb-2 text-sm font-medium">Analytics</div>
+                      <div className="flex flex-wrap gap-1">
+                        {site.siteInfo.technologies.analytics.map((tech) => (
                           <Badge
                             key={tech}
                             variant="outline"
@@ -376,45 +381,13 @@ export default async function SiteDetailPage({ params }: Props) {
                           >
                             {tech}
                           </Badge>
-                        )
-                      )}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-              {site.siteInfo.technologies.frameworks?.backend &&
-                site.siteInfo.technologies.frameworks.backend.length > 0 && (
-                  <div>
-                    <div className="mb-2 text-sm font-medium">Backend</div>
-                    <div className="flex flex-wrap gap-1">
-                      {site.siteInfo.technologies.frameworks.backend.map(
-                        (tech) => (
-                          <Badge
-                            key={tech}
-                            variant="outline"
-                            className="text-xs"
-                          >
-                            {tech}
-                          </Badge>
-                        )
-                      )}
-                    </div>
-                  </div>
-                )}
-              {site.siteInfo.technologies.analytics &&
-                site.siteInfo.technologies.analytics.length > 0 && (
-                  <div>
-                    <div className="mb-2 text-sm font-medium">Analytics</div>
-                    <div className="flex flex-wrap gap-1">
-                      {site.siteInfo.technologies.analytics.map((tech) => (
-                        <Badge key={tech} variant="outline" className="text-xs">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-            </CardContent>
-          </Card>
+                  )}
+              </CardContent>
+            </Card>
+          )}
         </aside>
       </div>
 

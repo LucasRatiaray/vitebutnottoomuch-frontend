@@ -32,10 +32,10 @@ export default function SiteCard({ site }: SiteCardProps) {
   };
 
   return (
-    <Card className="group gap-4 px-4 transition-all duration-200 hover:shadow-lg">
-      <CardHeader className="flex-row items-start justify-between px-0 pb-3">
-        <div className="flex min-w-0 flex-1 items-center gap-3">
-          <div className="bg-primary/10 text-primary flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg">
+    <Card className="group flex h-full flex-col gap-4 px-3 py-4 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] sm:px-4">
+      <CardHeader className="flex-row items-start justify-between px-0 pb-3 sm:pb-4">
+        <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+          <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:h-12 sm:w-12">
             {site.siteInfo.favicon ? (
               <Image
                 src={site.siteInfo.favicon}
@@ -45,29 +45,29 @@ export default function SiteCard({ site }: SiteCardProps) {
                 className="rounded"
               />
             ) : (
-              <ExternalLink className="h-6 w-6" />
+              <ExternalLink className="h-5 w-5 sm:h-6 sm:w-6" />
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="group-hover:text-primary line-clamp-2 text-lg font-semibold transition-colors">
+            <h3 className="group-hover:text-primary line-clamp-2 text-base font-semibold transition-colors sm:text-lg">
               {
                 site.title
                   .replace(/^[\w.-]+ - /, '')
                   .split(' Vitebutnottoomuch')[0]
               }
             </h3>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground truncate text-xs sm:text-sm">
               {site.siteInfo.domain}
             </p>
           </div>
         </div>
         <ScoreBadge
           score={site.seo.vitebutnottoomuchScore}
-          className="shrink-0"
+          className="shrink-0 scale-90 sm:scale-100"
         />
       </CardHeader>
 
-      <CardContent className="text-muted-foreground flex flex-col gap-4 px-0">
+      <CardContent className="text-muted-foreground flex flex-1 flex-col gap-3 px-0 sm:gap-4">
         <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-lg">
           {site.siteInfo.logo ? (
             <Image
@@ -78,22 +78,26 @@ export default function SiteCard({ site }: SiteCardProps) {
             />
           ) : (
             <div className="from-primary/5 to-primary/10 flex h-full items-center justify-center bg-gradient-to-br">
-              <ExternalLink className="text-muted-foreground/50 h-12 w-12" />
+              <ExternalLink className="text-muted-foreground/50 h-8 w-8 sm:h-12 sm:w-12" />
             </div>
           )}
         </div>
 
-        <p className="line-clamp-3 text-sm leading-relaxed">
+        <p className="line-clamp-3 text-xs leading-relaxed sm:text-sm">
           {site.metaDescription}
         </p>
 
         {/* Technologies */}
         {getTechBadges().length > 0 && (
           <div className="flex items-center gap-2">
-            <Code2 className="text-muted-foreground h-4 w-4" />
-            <div className="flex flex-wrap gap-1">
+            <Code2 className="text-muted-foreground h-3 w-3 shrink-0 sm:h-4 sm:w-4" />
+            <div className="flex min-w-0 flex-wrap gap-1">
               {getTechBadges().map((tech) => (
-                <Badge key={tech} variant="outline" className="text-xs">
+                <Badge
+                  key={tech}
+                  variant="outline"
+                  className="truncate text-xs"
+                >
                   {tech}
                 </Badge>
               ))}
@@ -104,7 +108,11 @@ export default function SiteCard({ site }: SiteCardProps) {
         {/* Categories */}
         <div className="flex flex-wrap gap-1">
           {site.seo.categories.slice(0, 2).map((category) => (
-            <Badge key={category} variant="secondary" className="text-xs">
+            <Badge
+              key={category}
+              variant="secondary"
+              className="truncate text-xs"
+            >
               {category}
             </Badge>
           ))}
@@ -113,36 +121,40 @@ export default function SiteCard({ site }: SiteCardProps) {
         {/* Meta info */}
         <div className="text-muted-foreground flex items-center justify-between text-xs">
           <div className="flex items-center gap-1">
-            <Clock className="h-3 w-3" />
-            <span>{site.seo.readingTime} min</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span>{site.seo.wordCount.toLocaleString()} mots</span>
+            <Clock className="h-3 w-3 shrink-0" />
+            <span className="truncate">{site.seo.readingTime} min</span>
           </div>
           {site.siteInfo.performance?.loadTime && (
             <div className="flex items-center gap-1">
-              <Gauge className="h-3 w-3" />
-              <span>{site.siteInfo.performance.loadTime}ms</span>
+              <Gauge className="h-3 w-3 shrink-0" />
+              <span className="truncate">
+                {site.siteInfo.performance.loadTime}ms
+              </span>
             </div>
           )}
         </div>
       </CardContent>
 
-      <CardFooter className="flex gap-2 p-0">
-        <Button asChild className="group/btn flex-1">
+      <CardFooter className="flex gap-2 p-0 pt-2 sm:pt-0">
+        <Button
+          asChild
+          className="group/btn flex-1 text-xs sm:text-sm"
+          size="sm"
+        >
           <Link href={`/sites/${site.slug}`}>
-            Voir l&apos;analyse
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+            <span className="hidden sm:inline">Voir l&apos;analyse</span>
+            <span className="sm:hidden">Analyse</span>
+            <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover/btn:translate-x-1 sm:ml-2 sm:h-4 sm:w-4" />
           </Link>
         </Button>
-        <Button variant="outline" size="sm" asChild>
+        <Button variant="outline" size="sm" asChild className="shrink-0">
           <a
             href={site.url}
             target="_blank"
             rel="noopener noreferrer"
             title="Visiter le site"
           >
-            <ExternalLink className="h-4 w-4" />
+            <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
           </a>
         </Button>
       </CardFooter>

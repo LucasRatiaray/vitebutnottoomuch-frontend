@@ -45,56 +45,66 @@ export default function HomeClient({
   return (
     <>
       {/* Hero Section */}
-      <section className="h-full py-8 md:py-16 lg:py-20">
-        <div className="mx-auto w-full max-w-7xl px-6 py-16">
-          <div className="flex flex-col items-center gap-2 text-center xl:gap-4">
+      <section className="flex min-h-screen items-center py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center space-y-6 text-center sm:space-y-8 lg:space-y-10">
             {badge && (
-              <Badge className="bg-primary/5 text-primary hover:bg-primary/5 shadow-none">
+              <Badge className="bg-primary/5 text-primary hover:bg-primary/5 text-xs shadow-none sm:text-sm">
                 {badge}
-                <ArrowUpRight />
+                <ArrowUpRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
               </Badge>
             )}
-            <h1 className="font-unbounded max-w-2xl text-4xl font-semibold text-pretty">
+            <h1 className="font-unbounded max-w-4xl text-2xl leading-tight font-semibold text-pretty sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
               {heading}
             </h1>
-            <p className="text-muted-foreground max-w-xl text-base">
+            <p className="text-muted-foreground max-w-2xl px-4 text-sm leading-relaxed sm:text-base lg:text-lg">
               {description}
             </p>
 
             {/* Stats Section */}
-            <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-6 sm:grid-cols-3">
-              <div className="text-center">
-                <div className="mb-2 flex items-center justify-center gap-2">
-                  <BarChart3 className="text-primary h-5 w-5" />
-                  <span className="text-primary text-2xl font-bold">
+            <div className="mt-8 grid w-full max-w-4xl grid-cols-1 gap-6 px-4 sm:mt-10 sm:gap-8 md:grid-cols-3 lg:mt-12">
+              <div className="bg-background/50 rounded-lg border p-4 text-center backdrop-blur-sm sm:p-6">
+                <div className="mb-3 flex items-center justify-center gap-2">
+                  <BarChart3 className="text-primary h-6 w-6 sm:h-7 sm:w-7" />
+                  <span className="text-primary text-2xl font-bold sm:text-3xl lg:text-4xl">
                     {stats.total}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-sm">Sites analysés :</p>
+                <p className="text-muted-foreground text-xs font-medium sm:text-sm">
+                  Sites analysés
+                </p>
               </div>
-              <div className="text-center">
-                <div className="mb-2 flex items-center justify-center gap-2">
-                  <Star className="h-5 w-5 fill-current text-yellow-500" />
-                  <span className="text-primary text-2xl font-bold">
+              <div className="bg-background/50 rounded-lg border p-4 text-center backdrop-blur-sm sm:p-6">
+                <div className="mb-3 flex items-center justify-center gap-2">
+                  <Star className="h-6 w-6 fill-current text-yellow-500 sm:h-7 sm:w-7" />
+                  <span className="text-primary text-2xl font-bold sm:text-3xl lg:text-4xl">
                     {stats.avgVitebutnottoomuchScore.toFixed(1)}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-sm">Score moyen</p>
+                <p className="text-muted-foreground text-xs font-medium sm:text-sm">
+                  Score moyen
+                </p>
               </div>
-              <div className="text-center">
-                <div className="mb-2 flex items-center justify-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-green-500" />
-                  <span className="text-primary text-2xl font-bold">
+              <div className="bg-background/50 rounded-lg border p-4 text-center backdrop-blur-sm sm:p-6 md:col-span-1">
+                <div className="mb-3 flex items-center justify-center gap-2">
+                  <TrendingUp className="h-6 w-6 text-green-500 sm:h-7 sm:w-7" />
+                  <span className="text-primary text-2xl font-bold sm:text-3xl lg:text-4xl">
                     {stats.categories.length}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-sm">Catégories</p>
+                <p className="text-muted-foreground text-xs font-medium sm:text-sm">
+                  Catégories
+                </p>
               </div>
             </div>
 
-            <div className="flex w-full flex-col justify-center gap-2 pt-6 sm:flex-row">
+            <div className="flex w-full max-w-md flex-col justify-center gap-3 pt-6 sm:max-w-lg sm:flex-row sm:gap-4">
               {buttons.primary && (
-                <Button asChild className="w-full sm:w-auto">
+                <Button
+                  asChild
+                  className="w-full sm:w-auto sm:flex-1"
+                  size="lg"
+                >
                   <Link href={buttons.primary.url}>{buttons.primary.text}</Link>
                 </Button>
               )}
@@ -102,7 +112,8 @@ export default function HomeClient({
                 <Button
                   variant="outline"
                   asChild
-                  className="group w-full sm:w-auto"
+                  className="group w-full sm:w-auto sm:flex-1"
+                  size="lg"
                 >
                   <Link href={buttons.secondary.url}>
                     {buttons.secondary.text}
@@ -116,25 +127,30 @@ export default function HomeClient({
       </section>
 
       {/* Top Sites Section */}
-      <section className="bg-muted/30 py-16">
-        <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold">
+      <section className="bg-muted/30 py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center sm:mb-12 lg:mb-16">
+            <h2 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl lg:text-4xl">
               Sites les mieux notés Vitebutnottoomuch
             </h2>
-            <p className="text-muted-foreground mx-auto max-w-2xl">
+            <p className="text-muted-foreground mx-auto max-w-3xl px-4 text-sm leading-relaxed sm:text-base lg:text-lg">
               Découvrez les sites qui incarnent le mieux la philosophie
               vitebutnottoomuch : performance exceptionnelle et richesse
               fonctionnelle en parfait équilibre.
             </p>
           </div>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3">
             {topSites.map((site) => (
               <SiteCard key={site.id} site={site} />
             ))}
           </div>
-          <div className="mt-12 text-center">
-            <Button asChild variant="outline" size="lg">
+          <div className="mt-8 text-center sm:mt-12">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
               <Link href="/sites">
                 Voir tous les sites
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -145,27 +161,32 @@ export default function HomeClient({
       </section>
 
       {/* Categories Section */}
-      <section className="py-16">
-        <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold">Explorez par catégories</h2>
-            <p className="text-muted-foreground mx-auto max-w-2xl">
+      <section className="py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center sm:mb-12 lg:mb-16">
+            <h2 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl lg:text-4xl">
+              Explorez par catégories
+            </h2>
+            <p className="text-muted-foreground mx-auto max-w-3xl px-4 text-sm leading-relaxed sm:text-base lg:text-lg">
               Parcourez notre catalogue organisé par domaines d&apos;expertise.
               Chaque catégorie regroupe les meilleurs sites de son secteur.
             </p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {stats.categories.slice(0, 6).map((category) => (
               <Link
                 key={category}
                 href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                className="group"
               >
-                <Card className="h-full cursor-pointer transition-shadow hover:shadow-lg">
+                <Card className="h-full cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]">
                   <CardHeader className="pb-3">
-                    <h3 className="text-lg font-semibold">{category}</h3>
+                    <h3 className="group-hover:text-primary text-base font-semibold transition-colors sm:text-lg">
+                      {category}
+                    </h3>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground text-sm">
+                    <p className="text-muted-foreground text-xs leading-relaxed sm:text-sm">
                       Découvrez les meilleurs sites de {category.toLowerCase()}
                       analysés selon les critères Vitebutnottoomuch.
                     </p>
@@ -174,8 +195,13 @@ export default function HomeClient({
               </Link>
             ))}
           </div>
-          <div className="mt-12 text-center">
-            <Button asChild variant="outline" size="lg">
+          <div className="mt-8 text-center sm:mt-12">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
               <Link href="/categories">
                 Toutes les catégories
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -186,18 +212,18 @@ export default function HomeClient({
       </section>
 
       {/* Recent Sites Section */}
-      <section className="bg-muted/30 py-16">
-        <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold">
+      <section className="bg-muted/30 py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 text-center sm:mb-12 lg:mb-16">
+            <h2 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl lg:text-4xl">
               Dernières analyses Vitebutnottoomuch
             </h2>
-            <p className="text-muted-foreground mx-auto max-w-2xl">
+            <p className="text-muted-foreground mx-auto max-w-3xl px-4 text-sm leading-relaxed sm:text-base lg:text-lg">
               Les sites les plus récemment ajoutés à notre catalogue, avec leurs
               analyses complètes et scores de performance.
             </p>
           </div>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3">
             {recentSites.map((site) => (
               <SiteCard key={site.id} site={site} />
             ))}
