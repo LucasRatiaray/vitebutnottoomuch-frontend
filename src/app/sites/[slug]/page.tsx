@@ -9,7 +9,6 @@ import { Separator } from '@/components/ui/separator';
 import {
   ExternalLink,
   Clock,
-  Gauge,
   Code2,
   ArrowLeft,
   BookOpen,
