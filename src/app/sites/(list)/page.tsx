@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import SiteCard from '@/components/ui/site-card';
+import { BentoGrid } from '@/components/ui/bento-grid';
+import { siteTobentoItem } from '@/lib/bento-utils';
 import { getAllSites } from '@/lib/data';
 
 export const generateMetadata = (): Metadata => ({
@@ -28,11 +29,5 @@ export const generateMetadata = (): Metadata => ({
 export default async function SitesPage() {
   const sites = await getAllSites();
 
-  return (
-    <>
-      {sites.map((site) => (
-        <SiteCard key={site.id} site={site} />
-      ))}
-    </>
-  );
+  return <BentoGrid items={sites.map((site) => siteTobentoItem(site))} />;
 }

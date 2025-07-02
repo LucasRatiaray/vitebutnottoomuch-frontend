@@ -12,7 +12,8 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import SiteCard from '@/components/ui/site-card';
+import { BentoGrid } from '@/components/ui/bento-grid';
+import { siteTobentoItem } from '@/lib/bento-utils';
 import { CategoriesFeatureSection } from '@/components/ui/categories-feature-section';
 import { stats, getTopSitesSync, getRecentSitesSync } from '@/lib/data';
 
@@ -143,11 +144,7 @@ export default function HomeClient({
               fonctionnelle en parfait équilibre.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {topSites.map((site) => (
-              <SiteCard key={site.id} site={site} />
-            ))}
-          </div>
+          <BentoGrid items={topSites.map((site) => siteTobentoItem(site))} />
           <div className="mt-8 text-center sm:mt-12">
             <Button
               asChild
@@ -205,11 +202,7 @@ export default function HomeClient({
               analyses complètes et scores de performance.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {recentSites.map((site) => (
-              <SiteCard key={site.id} site={site} />
-            ))}
-          </div>
+          <BentoGrid items={recentSites.map((site) => siteTobentoItem(site))} />
         </div>
       </section>
     </>

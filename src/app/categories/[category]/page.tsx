@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import SiteCard from '@/components/ui/site-card';
+import { BentoGrid } from '@/components/ui/bento-grid';
+import { siteTobentoItem } from '@/lib/bento-utils';
 import { Badge } from '@/components/ui/badge';
 import { getSitesByCategory } from '@/lib/data';
 import { categoriesItems, CATEGORY_MAP } from '@/lib/categories';
@@ -91,11 +92,7 @@ export default async function CategoryPage({ params }: Props) {
       </div>
 
       {sites.length > 0 ? (
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {sites.map((site) => (
-            <SiteCard key={site.id} site={site} />
-          ))}
-        </div>
+        <BentoGrid items={sites.map((site) => siteTobentoItem(site))} />
       ) : (
         <div className="py-16 text-center">
           <categoryInfo.icon className="text-muted-foreground mx-auto mb-4 h-16 w-16" />
