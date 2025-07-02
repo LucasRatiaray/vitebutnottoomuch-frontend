@@ -88,7 +88,7 @@ export interface SiteDetailProps {
 }
 
 // Helper type pour les badges de score
-export type ScoreVariant = "default" | "secondary" | "outline";
+export type ScoreVariant = 'default' | 'secondary' | 'outline';
 
 export interface ScoreBadgeProps {
   score: number;

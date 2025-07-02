@@ -18,8 +18,6 @@ import {
 } from 'lucide-react';
 import { getAllSlugs, getSiteBySlugSync } from '@/lib/data';
 import { ScoreBadge } from '@/components/ui/score-badge';
-import { BentoGrid } from '@/components/ui/bento-grid';
-import { siteTobentoItem } from '@/lib/bento-utils';
 
 interface Props {
   params: Promise<{ slug: string }>;

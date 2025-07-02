@@ -3,7 +3,7 @@ import React from 'react';
 import type { ComponentProps, ReactNode } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
-import { TrendingUp, Github, Twitter, Instagram } from 'lucide-react';
+import { Github, Twitter, Instagram } from 'lucide-react';
 import Logo from './logo';
 
 interface FooterLink {
@@ -55,7 +55,7 @@ const footerLinks: FooterSection[] = [
 
 export function Footer() {
   return (
-    <footer className="md:rounded-t-6xl relative mx-auto flex w-full max-w-7xl flex-col items-center justify-center rounded-t-4xl border-t bg-[radial-gradient(35%_128px_at_50%_0%,theme(backgroundColor.primary/8%),transparent)] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <footer className="md:rounded-t-6xl bg-[radial-gradient(35%_128px_at_50%_0%,theme(backgroundColor.primary/8%),transparent)] relative mx-auto flex w-full max-w-7xl flex-col items-center justify-center rounded-t-4xl border-t px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
       <div className="bg-foreground/20 absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full blur" />
 
       <div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">

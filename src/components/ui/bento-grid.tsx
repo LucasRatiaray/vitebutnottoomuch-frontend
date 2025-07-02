@@ -84,14 +84,14 @@ const itemsSample: BentoItem[] = [
 function BentoGrid({ items = itemsSample }: BentoGridProps) {
   return (
     <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3 p-2 sm:grid-cols-2 sm:gap-4 sm:p-4 lg:grid-cols-3 lg:gap-6">
-      {items.map((item, index) => (
-        <BentoCard key={index} item={item} index={index} />
+      {items.map((item, i) => (
+        <BentoCard key={i} item={item} />
       ))}
     </div>
   );
 }
 
-function BentoCard({ item, index }: { item: BentoItem; index: number }) {
+function BentoCard({ item }: { item: BentoItem }) {
   const isSite = item.type === 'site';
 
   return (
