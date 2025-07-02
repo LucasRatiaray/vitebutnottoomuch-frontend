@@ -53,66 +53,62 @@ export default function HomeClient({
   return (
     <>
       {/* Hero Section */}
-      <section className="flex min-h-screen items-center py-8 sm:py-12 md:py-16 lg:py-20">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center space-y-6 text-center sm:space-y-8 lg:space-y-10">
+      <section className="h-full py-8 md:py-16 lg:py-20">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-16">
+          <div className="flex flex-col items-center gap-4 text-center sm:gap-6 xl:gap-8">
             {badge && (
               <Badge className="bg-primary/5 text-primary hover:bg-primary/5 text-xs shadow-none sm:text-sm">
                 {badge}
                 <ArrowUpRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
               </Badge>
             )}
-            <h1 className="font-unbounded max-w-4xl text-pretty text-2xl font-semibold leading-tight sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <h1 className="font-unbounded max-w-2xl text-2xl font-semibold text-pretty sm:text-3xl md:text-4xl">
               {heading}
             </h1>
-            <p className="text-muted-foreground max-w-2xl px-4 text-sm leading-relaxed sm:text-base lg:text-lg">
+            <p className="text-muted-foreground max-w-xl px-4 text-sm leading-relaxed sm:px-0 sm:text-base">
               {description}
             </p>
 
             {/* Stats Section */}
-            <div className="mt-8 grid w-full max-w-4xl grid-cols-1 gap-6 px-4 sm:mt-10 sm:gap-8 md:grid-cols-3 lg:mt-12">
-              <div className="bg-background/50 rounded-lg border p-4 text-center backdrop-blur-sm sm:p-6">
-                <div className="mb-3 flex items-center justify-center gap-2">
-                  <BarChart3 className="text-primary h-6 w-6 sm:h-7 sm:w-7" />
-                  <span className="text-primary text-2xl font-bold sm:text-3xl lg:text-4xl">
+            <div className="mt-6 grid w-full max-w-2xl grid-cols-1 gap-4 px-4 sm:mt-8 sm:grid-cols-3 sm:gap-6 sm:px-0">
+              <div className="text-center">
+                <div className="mb-2 flex items-center justify-center gap-2">
+                  <BarChart3 className="text-primary h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="text-primary text-xl font-bold sm:text-2xl">
                     {stats.total}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-xs font-medium sm:text-sm">
+                <p className="text-muted-foreground text-xs sm:text-sm">
                   Sites analysés
                 </p>
               </div>
-              <div className="bg-background/50 rounded-lg border p-4 text-center backdrop-blur-sm sm:p-6">
-                <div className="mb-3 flex items-center justify-center gap-2">
-                  <Star className="h-6 w-6 fill-current text-yellow-500 sm:h-7 sm:w-7" />
-                  <span className="text-primary text-2xl font-bold sm:text-3xl lg:text-4xl">
+              <div className="text-center">
+                <div className="mb-2 flex items-center justify-center gap-2">
+                  <Star className="h-4 w-4 fill-current text-yellow-500 sm:h-5 sm:w-5" />
+                  <span className="text-primary text-xl font-bold sm:text-2xl">
                     {stats.avgVitebutnottoomuchScore.toFixed(1)}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-xs font-medium sm:text-sm">
+                <p className="text-muted-foreground text-xs sm:text-sm">
                   Score moyen
                 </p>
               </div>
-              <div className="bg-background/50 rounded-lg border p-4 text-center backdrop-blur-sm sm:p-6 md:col-span-1">
-                <div className="mb-3 flex items-center justify-center gap-2">
-                  <TrendingUp className="h-6 w-6 text-green-500 sm:h-7 sm:w-7" />
-                  <span className="text-primary text-2xl font-bold sm:text-3xl lg:text-4xl">
+              <div className="text-center">
+                <div className="mb-2 flex items-center justify-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-green-500 sm:h-5 sm:w-5" />
+                  <span className="text-primary text-xl font-bold sm:text-2xl">
                     {stats.categories.length}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-xs font-medium sm:text-sm">
+                <p className="text-muted-foreground text-xs sm:text-sm">
                   Catégories
                 </p>
               </div>
             </div>
 
-            <div className="flex w-full max-w-md flex-col justify-center gap-3 pt-6 sm:max-w-lg sm:flex-row sm:gap-4">
+            <div className="flex w-full flex-col justify-center gap-3 pt-4 sm:flex-row sm:gap-4 sm:pt-6">
               {buttons.primary && (
-                <Button
-                  asChild
-                  className="w-full sm:w-auto sm:flex-1"
-                  size="lg"
-                >
+                <Button asChild className="w-full sm:w-auto" size="default">
                   <Link href={buttons.primary.url}>{buttons.primary.text}</Link>
                 </Button>
               )}
@@ -120,8 +116,8 @@ export default function HomeClient({
                 <Button
                   variant="outline"
                   asChild
-                  className="group w-full sm:w-auto sm:flex-1"
-                  size="lg"
+                  className="group w-full sm:w-auto"
+                  size="default"
                 >
                   <Link href={buttons.secondary.url}>
                     {buttons.secondary.text}
