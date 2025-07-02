@@ -62,7 +62,7 @@ export default function HomeClient({
                 <ArrowUpRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
               </Badge>
             )}
-            <h1 className="font-unbounded max-w-4xl text-2xl leading-tight font-semibold text-pretty sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <h1 className="font-unbounded max-w-4xl text-pretty text-2xl font-semibold leading-tight sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
               {heading}
             </h1>
             <p className="text-muted-foreground max-w-2xl px-4 text-sm leading-relaxed sm:text-base lg:text-lg">

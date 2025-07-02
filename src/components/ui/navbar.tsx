@@ -61,7 +61,7 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          'bg-opacity-15 border-secondary dark:bg-navbar bg-primary/10 sticky top-5 z-40 mx-auto flex w-[90%] items-center justify-between rounded-2xl border px-2 py-2.5 shadow-inner backdrop-blur-sm transition-transform duration-300 ease-in-out md:w-[70%] lg:w-[75%] lg:max-w-screen-xl',
+          'border-secondary dark:bg-navbar bg-primary/10 sticky top-5 z-40 mx-auto flex w-[90%] items-center justify-between rounded-2xl border bg-opacity-15 px-2 py-2.5 shadow-inner backdrop-blur-sm transition-transform duration-300 ease-in-out md:w-[70%] lg:w-[75%] lg:max-w-screen-xl',
           isVisible ? 'translate-y-0' : '-translate-y-20'
         )}
       >
@@ -145,7 +145,7 @@ export function Navbar() {
           />
 
           {/* Mobile Menu Panel */}
-          <div className="fixed top-20 right-[5%] left-[5%] z-50 lg:hidden">
+          <div className="fixed left-[5%] right-[5%] top-20 z-50 lg:hidden">
             <div className="bg-background/95 border-secondary max-h-[70vh] overflow-y-auto rounded-2xl border shadow-lg backdrop-blur-sm">
               <nav className="space-y-4 p-4">
                 {/* Main Link */}
