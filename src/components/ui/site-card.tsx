@@ -12,7 +12,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Site } from '@/lib/types';
-import { ScoreBadge } from '@/components/score-badge';
+import { ScoreBadge } from '@/components/ui/score-badge';
 
 interface SiteCardProps {
   site: Site;

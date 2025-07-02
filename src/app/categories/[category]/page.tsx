@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import SiteCard from '@/components/site-card';
+import SiteCard from '@/components/ui/site-card';
 import { Badge } from '@/components/ui/badge';
 import { getSitesByCategory } from '@/lib/data';
 import { categoriesItems, CATEGORY_MAP } from '@/lib/categories';

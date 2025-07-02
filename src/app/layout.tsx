@@ -4,7 +4,8 @@ import { Unbounded, DM_Sans } from 'next/font/google';
 import './globals.css';
 import Head from 'next/head';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/ui/navbar';
+import { Footer } from '@/components/ui/footer-section';
 import { cn } from '@/lib/utils';
 import TopLight from '@/components/top-light';
 
@@ -23,14 +24,25 @@ export const fontUnbounded = Unbounded({
 
 export const metadata: Metadata = {
   title: {
-    default: "Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée",
-    template: "%s | Vitebutnottoomuch"
+    default:
+      'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
+    template: '%s | Vitebutnottoomuch',
   },
-  description: "Découvrez notre sélection de sites web analysés sous l'angle Vitebutnottoomuch. Catalogue de sites performants alliant vitesse et fonctionnalités dans un équilibre parfait.",
-  keywords: ["vitebutnottoomuch", "performance web", "sites web", "catalogue", "analyse", "vitesse", "équilibre", "SEO"],
-  authors: [{ name: "Vitebutnottoomuch" }],
-  creator: "Vitebutnottoomuch",
-  publisher: "Vitebutnottoomuch",
+  description:
+    "Découvrez notre sélection de sites web analysés sous l'angle Vitebutnottoomuch. Catalogue de sites performants alliant vitesse et fonctionnalités dans un équilibre parfait.",
+  keywords: [
+    'vitebutnottoomuch',
+    'performance web',
+    'sites web',
+    'catalogue',
+    'analyse',
+    'vitesse',
+    'équilibre',
+    'SEO',
+  ],
+  authors: [{ name: 'Vitebutnottoomuch' }],
+  creator: 'Vitebutnottoomuch',
+  publisher: 'Vitebutnottoomuch',
   metadataBase: new URL('https://vitebutnottoomuch.me'),
   alternates: {
     canonical: '/',
@@ -43,7 +55,8 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     url: 'https://vitebutnottoomuch.me',
     title: 'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
-    description: 'Découvrez notre sélection de sites web analysés sous l\'angle Vitebutnottoomuch. Performance web optimale et équilibre parfait.',
+    description:
+      "Découvrez notre sélection de sites web analysés sous l'angle Vitebutnottoomuch. Performance web optimale et équilibre parfait.",
     siteName: 'Vitebutnottoomuch',
     images: [
       {
@@ -57,7 +70,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Vitebutnottoomuch - Le Catalogue de la Performance Web Équilibrée',
-    description: 'Découvrez notre sélection de sites web analysés sous l\'angle Vitebutnottoomuch.',
+    description:
+      "Découvrez notre sélection de sites web analysés sous l'angle Vitebutnottoomuch.",
     images: ['/images/og-default.webp'],
   },
   robots: {
@@ -109,6 +123,7 @@ export default function RootLayout({
           <TopLight />
           <Navbar />
           <main id="main-content">{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

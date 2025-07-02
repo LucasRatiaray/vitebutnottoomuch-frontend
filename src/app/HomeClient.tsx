@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Link from 'next/link';
-import SiteCard from '@/components/site-card';
+import SiteCard from '@/components/ui/site-card';
 import { stats, getTopSitesSync, getRecentSitesSync } from '@/lib/data';
 
 const defaultProps = {
@@ -212,7 +212,7 @@ export default function HomeClient({
       </section>
 
       {/* Recent Sites Section */}
-      <section className="bg-muted/30 py-12 sm:py-16 lg:py-20">
+      <section className="bg-background py-12 sm:py-16 lg:py-20">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 text-center sm:mb-12 lg:mb-16">
             <h2 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl lg:text-4xl">
