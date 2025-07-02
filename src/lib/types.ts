@@ -77,10 +77,6 @@ export interface ExportData {
 }
 
 // Types d'interface pour les composants
-export interface SiteCardProps {
-  site: Site;
-}
-
 export interface CategoryPageProps {
   sites: Site[];
   category: string;

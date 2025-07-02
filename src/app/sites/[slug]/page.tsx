@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { getAllSlugs, getSiteBySlugSync } from '@/lib/data';
 import { ScoreBadge } from '@/components/ui/score-badge';
+import { BentoGrid } from '@/components/ui/bento-grid';
+import { siteTobentoItem } from '@/lib/bento-utils';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -396,11 +398,7 @@ export default async function SiteDetailPage({ params }: Props) {
           <h2 className="text-3xl font-bold mb-8 text-center">
             Sites similaires avec un excellent score Vitebutnottoomuch
           </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {similarSites.map((similarSite) => (
-              <SiteCard key={similarSite.id} site={similarSite} />
-            ))}
-          </div>
+          <BentoGrid items={similarSites.map(siteTobentoItem)} />
         </section>
       )} */}
     </article>
