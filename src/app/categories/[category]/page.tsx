@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { BentoGrid } from '@/components/ui/bento-grid';
+import { BentoGrid } from '@/components/bento-grid';
 import { siteTobentoItem } from '@/lib/bento-utils';
 import { Badge } from '@/components/ui/badge';
 import { getSitesByCategory } from '@/lib/data';

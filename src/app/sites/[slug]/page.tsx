@@ -17,7 +17,7 @@ import {
   Globe,
 } from 'lucide-react';
 import { getAllSlugs, getSiteBySlugSync } from '@/lib/data';
-import { ScoreBadge } from '@/components/ui/score-badge';
+import { ScoreBadge } from '@/components/score-badge';
 
 interface Props {
   params: Promise<{ slug: string }>;

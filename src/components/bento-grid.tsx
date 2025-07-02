@@ -14,7 +14,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ScoreBadge } from '@/components/ui/score-badge';
+import { ScoreBadge } from '@/components/score-badge';
 import type { BentoItem } from '@/lib/bento-utils';
 
 interface BentoGridProps {

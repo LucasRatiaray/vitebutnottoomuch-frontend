@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { BentoGrid } from '@/components/ui/bento-grid';
+import { BentoGrid } from '@/components/bento-grid';
 import { siteTobentoItem } from '@/lib/bento-utils';
 import { getAllSites } from '@/lib/data';
 

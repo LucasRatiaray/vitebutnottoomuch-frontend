@@ -1,4 +1,4 @@
-import { Footer } from '@/components/ui/footer-section';
+import { Footer } from '@/components/footer';
 
 export default function FooterDemo() {
   return (

@@ -12,9 +12,9 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { BentoGrid } from '@/components/ui/bento-grid';
+import { BentoGrid } from '@/components/bento-grid';
 import { siteTobentoItem } from '@/lib/bento-utils';
-import { CategoriesFeatureSection } from '@/components/ui/categories-feature-section';
+import { CategoriesFeatureSection } from '@/components/categories-feature-section';
 import { stats, getTopSitesSync, getRecentSitesSync } from '@/lib/data';
 
 const defaultProps = {

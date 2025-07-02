@@ -4,8 +4,8 @@ import { Unbounded, DM_Sans } from 'next/font/google';
 import './globals.css';
 import Head from 'next/head';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Navbar } from '@/components/ui/navbar';
-import { Footer } from '@/components/ui/footer-section';
+import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
 import TopLight from '@/components/top-light';
 
