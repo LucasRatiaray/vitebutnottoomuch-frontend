@@ -290,13 +290,13 @@ export default async function SiteDetailPage({ params }: Props) {
             </CardHeader>
             <CardContent className="space-y-2">
               {tableOfContents.map((item) => (
-                <a
+                <Link
                   key={item.id}
                   href={item.href}
                   className="text-muted-foreground hover:text-primary block py-1 text-sm transition-colors"
                 >
                   {item.title}
-                </a>
+                </Link>
               ))}
             </CardContent>
           </Card>

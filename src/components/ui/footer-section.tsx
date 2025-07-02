@@ -1,15 +1,9 @@
 'use client';
 import React from 'react';
 import type { ComponentProps, ReactNode } from 'react';
+import Link from 'next/link';
 import { motion, useReducedMotion } from 'motion/react';
-import {
-  Globe,
-  TrendingUp,
-  BarChart3,
-  Github,
-  Twitter,
-  Linkedin,
-} from 'lucide-react';
+import { TrendingUp, Github, Twitter, Instagram } from 'lucide-react';
 
 interface FooterLink {
   title: string;
@@ -53,7 +47,7 @@ const footerLinks: FooterSection[] = [
     links: [
       { title: 'GitHub', href: '#', icon: Github },
       { title: 'Twitter', href: '#', icon: Twitter },
-      { title: 'LinkedIn', href: '#', icon: Linkedin },
+      { title: 'Instagram', href: '#', icon: Instagram },
     ],
   },
 ];
@@ -91,13 +85,31 @@ export function Footer() {
                 <ul className="text-muted-foreground space-y-3 text-sm">
                   {section.links.map((link) => (
                     <li key={link.title}>
-                      <a
-                        href={link.href}
-                        className="hover:text-primary inline-flex items-center transition-all duration-300 hover:translate-x-1"
-                      >
-                        {link.icon && <link.icon className="me-2 size-4" />}
-                        {link.title}
-                      </a>
+                      {link.href.startsWith('http') || link.href === '#' ? (
+                        <a
+                          href={link.href}
+                          className="hover:text-primary inline-flex items-center transition-all duration-300 hover:translate-x-1"
+                          target={
+                            link.href.startsWith('http') ? '_blank' : undefined
+                          }
+                          rel={
+                            link.href.startsWith('http')
+                              ? 'noopener noreferrer'
+                              : undefined
+                          }
+                        >
+                          {link.icon && <link.icon className="me-2 size-4" />}
+                          {link.title}
+                        </a>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="hover:text-primary inline-flex items-center transition-all duration-300 hover:translate-x-1"
+                        >
+                          {link.icon && <link.icon className="me-2 size-4" />}
+                          {link.title}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
