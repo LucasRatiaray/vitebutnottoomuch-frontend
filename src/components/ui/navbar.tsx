@@ -4,7 +4,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { MenuIcon, XIcon } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 import {
   NavigationMenu,
@@ -127,9 +127,9 @@ export function Navbar() {
             aria-label="Toggle mobile menu"
           >
             {mobileMenuOpen ? (
-              <XIcon className="h-5 w-5" />
+              <X className="h-5 w-5" />
             ) : (
-              <MenuIcon className="h-5 w-5" />
+              <Menu className="h-5 w-5" />
             )}
           </button>
         </div>

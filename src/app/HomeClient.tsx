@@ -11,9 +11,9 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Link from 'next/link';
 import SiteCard from '@/components/ui/site-card';
+import { CategoriesFeatureSection } from '@/components/ui/categories-feature-section';
 import { stats, getTopSitesSync, getRecentSitesSync } from '@/lib/data';
 
 const defaultProps = {
@@ -41,6 +41,14 @@ export default function HomeClient({
 }) {
   const topSites = getTopSitesSync(3);
   const recentSites = getRecentSitesSync(3);
+
+  // Préparer les données des catégories pour le nouveau composant
+  const categoriesData = stats.categories.slice(0, 8).map((category) => ({
+    title: category,
+    description: `Découvrez les meilleurs sites de ${category.toLowerCase()} analysés selon les critères Vitebutnottoomuch.`,
+    href: `/categories/${category.toLowerCase().replace(/\s+/g, '-')}`,
+    count: undefined, // On pourrait ajouter le nombre de sites par catégorie plus tard
+  }));
 
   return (
     <>
@@ -172,29 +180,7 @@ export default function HomeClient({
               Chaque catégorie regroupe les meilleurs sites de son secteur.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {stats.categories.slice(0, 6).map((category) => (
-              <Link
-                key={category}
-                href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`}
-                className="group"
-              >
-                <Card className="h-full cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]">
-                  <CardHeader className="pb-3">
-                    <h3 className="group-hover:text-primary text-base font-semibold transition-colors sm:text-lg">
-                      {category}
-                    </h3>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground text-xs leading-relaxed sm:text-sm">
-                      Découvrez les meilleurs sites de {category.toLowerCase()}
-                      analysés selon les critères Vitebutnottoomuch.
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+          <CategoriesFeatureSection categories={categoriesData} />
           <div className="mt-8 text-center sm:mt-12">
             <Button
               asChild
